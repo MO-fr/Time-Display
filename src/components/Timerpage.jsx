@@ -5,16 +5,16 @@ const Timerpage = () => {
    const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
 
-  useEffect(() => {
-    const link = document.createElement('link');
-    link.rel = 'stylesheet';
-    link.href = `${process.env.PUBLIC_URL}/css/Timerpage.css`;
-    document.head.appendChild(link);
+  // useEffect(() => {
+  //   const link = document.createElement('link');
+  //   link.rel = 'stylesheet';
+  //   link.href = `${process.env.PUBLIC_URL}/css/Timerpage.css`;
+  //   document.head.appendChild(link);
 
-    return () => {
-      document.head.removeChild(link);
-    };
-  }, []);
+  //   return () => {
+  //     document.head.removeChild(link);
+  //   };
+  // }, []); --- Still working on this code, will update in the future
 
   useEffect(() => {
     let intervalId;
