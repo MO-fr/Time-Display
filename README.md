@@ -1,8 +1,42 @@
-# React + Vite
+# ⏳ Time Display
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A sleek, minimalist timer built with React and Vite. Displays elapsed time in **HH:MM:SS** format with start, pause, and reset functionality.
 
-Currently, two official plugins are available:
+## 🚀 Features
+- Start, pause, and reset the timer with a simple UI.
+- Smooth and modern design using **Lucide Icons**.
+- Fully responsive and optimized.
+- **Future Updates:**
+  - 🌈 **Theme changer** with multiple color options.
+  - 🔔 **Toast notifications** when pausing, resuming, and resetting.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
+
+## 🛠 Tech Stack
+- ⚛ **React** (Vite-based setup)
+- 🎨 **CSS** (Custom styling)
+- 🔗 **Lucide Icons** (For play, pause, and reset buttons)
+- ☁ **Vercel** (For hosting)
+
+---
+
+## 📸 Screenshots  
+_Add a screenshot here if you want._  
+
+---
+
+## Installation dependencies
+
+
+
+---
+
+## 📥 Installation & Usage
+
+### 1️⃣ Clone the Repository
+```sh
+git clone https://github.com/Mo-fr/time-display.git
+cd time-display 
+
+
+
