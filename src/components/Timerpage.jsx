@@ -2,19 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Play, Pause, RotateCcw } from 'lucide-react';
 
 const Timerpage = () => {
-   const [time, setTime] = useState(0);
+  const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-
-  // useEffect(() => {
-  //   const link = document.createElement('link');
-  //   link.rel = 'stylesheet';
-  //   link.href = `${process.env.PUBLIC_URL}/css/Timerpage.css`;
-  //   document.head.appendChild(link);
-
-  //   return () => {
-  //     document.head.removeChild(link);
-  //   };
-  // }, []); --- Still working on this code, will update in the future
 
   useEffect(() => {
     let intervalId;
@@ -43,30 +32,21 @@ const Timerpage = () => {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-red-50">
-      <div className="flex flex-col items-center justify-center space-y-6 p-8 bg-white rounded-lg shadow-lg w-80">
+    <div className="timer-container">
+      <div className="timer-card">
         {/* Timer Display */}
-        <div className="text-6xl font-bold text-red-600 font-mono">
+        <div className="timer-display">
           {formatTime(time)}
         </div>
         
         {/* Controls */}
-        <div className="flex space-x-4">
-          <button
-            onClick={handleStartStop}
-            className="flex items-center justify-center w-12 h-12 rounded-full bg-red-600 hover:bg-red-700 text-white transition-colors"
-          >
-            {isRunning ? 
-              <Pause className="w-6 h-6" /> : 
-              <Play className="w-6 h-6" />
-            }
+        <div className="timer-controls">
+          <button onClick={handleStartStop} className="timer-button">
+            {isRunning ? <Pause /> : <Play />}
           </button>
           
-          <button
-            onClick={handleReset}
-            className="flex items-center justify-center w-12 h-12 rounded-full bg-red-600 hover:bg-red-700 text-white transition-colors"
-          >
-            <RotateCcw className="w-6 h-6" />
+          <button onClick={handleReset} className="timer-button">
+            <RotateCcw />
           </button>
         </div>
       </div>
