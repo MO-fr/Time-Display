@@ -4,7 +4,7 @@ import Timerpage from './components/Timerpage'; // Import your Timerpage compone
 function App() {
   return (
     <div className="App">
-      <h1>My Timer App</h1>
+      <h1>The Focus Timer!</h1>
       <Timerpage /> 
     </div>
   );

@@ -1,7 +1,7 @@
 /* public/styles.css */
 
 /* Import Google Font */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 /* Global Styles */
 body {
@@ -12,77 +12,108 @@ body {
   min-height: 100vh;
   margin: 0;
   font-family: 'Poppins', sans-serif;
+  color: #fff;
 }
 
 /* Timer Card */
 .timer-card {
-  background: #b91c1c; /* Medium red */
-  padding: 25px;
-  border-radius: 16px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  width: 400px;
+  background: linear-gradient(145deg, #b91c1c, #991b1b); /* Gradient for depth */
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  width: 420px;
   text-align: center;
-  border: 2px solid #fff;
+  border: 2px solid rgba(255, 255, 255, 0.1); /* Subtle border */
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .timer-card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.5);
 }
 
 /* Timer Display */
 .timer-display {
-  font-size: 3.5rem;
+  font-size: 4rem;
   font-weight: 600;
   color: #fff;
   font-family: 'Poppins', sans-serif;
-  padding: 15px;
-  background: #dc2626; /* Bright red */
-  border-radius: 10px;
+  padding: 20px;
+  background: rgba(220, 38, 38, 0.9); /* Slightly transparent bright red */
+  border-radius: 12px;
   display: inline-block;
-  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.2);
-  width: 80%;
+  box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.3);
+  width: 85%;
+  margin-bottom: 20px;
+  letter-spacing: 2px; /* Improve readability */
 }
 
 /* Controls Container */
 .timer-controls {
   display: flex;
-  gap: 16px;
+  gap: 20px;
   justify-content: center;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 /* Buttons */
 .timer-button {
-  width: 60px;
-  height: 60px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  background: #ef4444; /* Light red */
+  background: linear-gradient(145deg, #ef4444, #dc2626); /* Gradient for buttons */
   color: white;
   border: none;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
+  outline: none; /* Remove default focus outline */
 }
 
 .timer-button:hover {
-  background: #dc2626; /* Darker red */
+  background: linear-gradient(145deg, #dc2626, #b91c1c); /* Darker gradient on hover */
   transform: scale(1.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
 }
 
 .timer-button:active {
-  background: #991b1b; /* Deep red */
+  background: linear-gradient(145deg, #991b1b, #7f1d1d); /* Deep red gradient on click */
   transform: scale(0.95);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
 
 /* Icons */
 .timer-button svg {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3)); /* Add subtle shadow to icons */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .timer-card {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .timer-display {
+    font-size: 3rem;
+    padding: 15px;
+  }
+
+  .timer-button {
+    width: 60px;
+    height: 60px;
+  }
+
+  .timer-button svg {
+    width: 24px;
+    height: 24px;
+  }
 }
