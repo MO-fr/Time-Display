@@ -15,6 +15,8 @@ body {
   color: #fff;
 }
 
+
+
 /* Timer Card */
 .timer-card {
   background: linear-gradient(145deg, #b91c1c, #991b1b); /* Gradient for depth */
@@ -116,4 +118,146 @@ body {
     width: 24px;
     height: 24px;
   }
+}
+
+/* Timer Input Fields */
+.timer-input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.timer-input {
+  width: 80px;
+  padding: 12px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.timer-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.timer-input:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+.timer-input:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.title{
+  position: relative;
+  top: -20px;
+  font-size: 3rem;
+  right: 25px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .timer-input {
+    width: 60px;
+    padding: 10px;
+    font-size: 1rem;
+    position: relative;
+    top: 10px;
+  }
+}
+
+/* Main container for the timer */
+.timer-card {
+  background: linear-gradient(145deg, #b91c1c, #991b1b); /* Red gradient */
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  width: 420px;
+  text-align: center;
+  border: 2px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Timer display (big numbers) */
+.timer-display {
+  font-size: 4rem;
+  font-weight: 600;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+  background: rgba(220, 38, 38, 0.9); /* Slightly transparent bright red */
+  border-radius: 12px;
+  display: inline-block;
+  box-shadow: inset 0 6px 12px rgba(0, 0, 0, 0.3);
+  width: 85%;
+  margin-bottom: 20px;
+  letter-spacing: 2px; /* Improve readability */
+}
+
+/* Container for the input fields */
+.timer-input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+/* Style for the input fields */
+.timer-input {
+  width: 80px;
+  padding: 12px;
+  text-align: center;
+  font-size: 1.2rem;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Placeholder text for inputs */
+.timer-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Separator between inputs (e.g., ":" between hours and minutes) */
+.timer-separator {
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+/* Buttons to control the timer */
+.timer-button {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ef4444, #dc2626); /* Red gradient */
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none; /* Remove default focus outline */
+}
+
+/* Hover effect for buttons */
+.timer-button:hover {
+  background: linear-gradient(145deg, #dc2626, #b91c1c); /* Darker gradient */
+  transform: scale(1.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
 }

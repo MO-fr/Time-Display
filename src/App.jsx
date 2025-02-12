@@ -1,10 +1,10 @@
 import React from 'react';
-import Timerpage from './components/Timerpage'; // Import your Timerpage component
+import Timerpage from './components/Timerpage.jsx'; // Import your Timerpage component
 
 function App() {
   return (
     <div className="App">
-      <h1>The Focus Timer!</h1>
+      <h1 className='title'>The Focus Stopwatch!</h1>
       <Timerpage /> 
     </div>
   );
