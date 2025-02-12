@@ -10,7 +10,6 @@ A sleek, minimalist timer built with React and Vite. Displays elapsed time in **
 ✔ Fully responsive and optimized.  
 
 ### 🔮 Future Updates  
-- 🌈 **Theme Changer** – Switch between multiple color themes.  
 - 🔔 **Toast Notifications** – Pop-up messages for pause, resume, and reset actions.  
 
 ---
