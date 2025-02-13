@@ -9,10 +9,6 @@ A sleek, minimalist timer built with React and Vite. Displays elapsed time in **
 ✔ Smooth and modern design using **Lucide Icons**.  
 ✔ Fully responsive and optimized.  
 
-### 🔮 Future Updates  
-- 🌈 **Theme Changer** – Switch between multiple color themes.  
-- 🔔 **Toast Notifications** – Pop-up messages for pause, resume, and reset actions.  
-
 ---
 
 ## 🛠 Tech Stack  
@@ -38,8 +34,7 @@ Exciting features planned for upcoming versions:
 
 - 🎨 **Theme Changer** – Users will be able to switch between multiple color themes for a personalized experience.  
 - 🔔 **Toast Notifications** – Pop-up messages will appear when the timer is paused, resumed, or reset to improve user feedback.
-- 🕒 **Timer feature** - will be able to switch to a set timer feature, simalar to what you may have on you mobile device. 
-
+  
 Stay tuned for more enhancements! 🚀  
 
 
