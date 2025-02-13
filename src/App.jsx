@@ -1,5 +1,5 @@
 import React from 'react';
-import Timerpage from './components/Timerpage.jsx'; // Import your Timerpage component
+import Timerpage from './components/Timerlogic.jsx'; // Import your Timerpage component
 
 function App() {
   return (

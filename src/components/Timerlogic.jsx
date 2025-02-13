@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import TimerUI from './TimerUI'; // This is the part that shows the timer on the screen
 
-//This code deals with the css styling of the timer
+//This code deals with the logic of the timer
 
-const TimerPage = () => {
+const Timerlogic = () => {
   // These are like memory boxes to store information
   const [time, setTime] = useState(0); // Stores the current time in seconds
   const [isRunning, setIsRunning] = useState(false); // Tracks if the timer is running or paused
@@ -95,4 +95,4 @@ const TimerPage = () => {
   );
 };
 
-export default TimerPage;
+export default Timerlogic;
