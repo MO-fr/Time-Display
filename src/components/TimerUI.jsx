@@ -1,6 +1,8 @@
 import React from 'react';
 import { Play, Pause, RotateCcw, Timer, Clock } from 'lucide-react'; // These are icons for the buttons
 
+//This code deals with the Styling of the timer
+
 const TimerUI = ({
   time, // The current time in seconds
   isRunning, // Whether the timer is running or paused
@@ -17,6 +19,9 @@ const TimerUI = ({
   setInputMinutes, // A function to update the minutes input
   setInputSeconds, // A function to update the seconds input
 }) => {
+  
+  
+
   return (
     <div className="timer-card">
       {/* Button to switch between stopwatch and timer modes */}
@@ -26,6 +31,8 @@ const TimerUI = ({
           Switch to {isStopwatch ? 'Timer' : 'Stopwatch'}
         </button>
       </div>
+
+  <br />
 
       {/* Display the current time in HH:MM:SS format */}
       <div className="timer-display">{formatTime(time)}</div>

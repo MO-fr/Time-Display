@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TimerUI from './TimerUI'; // This is the part that shows the timer on the screen
 
 //This code deals with the logic of the timer
-
+  
 const Timerlogic = () => {
   // These are like memory boxes to store information
   const [time, setTime] = useState(0); // Stores the current time in seconds
