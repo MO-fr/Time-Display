@@ -1,13 +1,18 @@
 import React from 'react';
-import Timerpage from './components/Timerlogic.jsx'; // Import your Timerpage component
+import ThemeDropdown from './components/ThemeDropdown.jsx'; // Import the ThemeDropdown component
+import Timerpage from './components/Timerlogic.jsx'; // Your main component
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <h1 className='title'>The Focus Tracker!</h1>
-      <Timerpage /> 
+    <div className="min-h-screen p-8">
+      {/* Add the ThemeDropdown */}
+      <ThemeDropdown />
+
+      {/* Your existing app content */}
+      <h1 className="text-4xl font-bold text-center mt-10">The Focus Tracker!</h1>
+      <Timerpage /> {/* Your main app logic */}
     </div>
   );
-}
+};
 
 export default App;
