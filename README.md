@@ -51,7 +51,6 @@ npm run dev
 
 Exciting features planned for upcoming versions:  
 
-- 🎨 **Theme Changer** – Users will be able to switch between multiple color themes for a personalized experience.  
 - 🔔 **Toast Notifications** – Pop-up messages will appear when the timer is paused, resumed, or reset to improve user feedback.  
 - ⏲ **Preset Timers** – Add predefined timer presets for quick access (e.g., 5 minutes, 10 minutes).  
 - 📊 **History Log** – Track and display past timer sessions for reference.  
