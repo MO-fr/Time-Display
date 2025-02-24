@@ -1,109 +1,110 @@
-import React, { useState } from 'react';
-import { Palette, Moon, Sun, Droplet, Sparkles, ChevronDown, X } from 'lucide-react';
+import React, { useState } from 'react'; // Import React and the useState hook
+import { Palette, Moon, Sun, Droplet, Sparkles, ChevronDown, X } from 'lucide-react'; // Import cool icons
 
-const ThemeDropdown = () => {
-  // State to control whether the theme menu is open or closed
+const ThemeSelector = () => {
+  // State to track if the theme dropdown is open or closed
   const [isOpen, setIsOpen] = useState(false);
 
-  // State to store the currently selected theme
+  // State to track the currently selected theme
   const [theme, setTheme] = useState('default');
 
-  // List of themes, all with a name, styling, and an icon
+  // List of themes with their names, colors, and icons
   const themes = [
     {
       name: 'Default', // Theme name
-      value: 'default', // Theme identifier
+      value: 'default', // Theme ID
       background: 'bg-red-800', // Background color (dark red)
       text: 'text-white', // Text color (white)
-      icon: <Sun className="w-4 h-4" />, // Sun icon representing the default theme
+      icon: <Sun className="w-4 h-4" />, // Sun icon for this theme
     },
     {
       name: 'Sunset',
       value: 'sunset',
-      background: 'bg-gradient-to-r from-orange-400 to-pink-600', 
+      background: 'bg-gradient-to-r from-orange-400 to-pink-600', // Gradient background (orange to pink)
       text: 'text-white',
-      icon: <Palette className="w-4 h-4" />, 
+      icon: <Palette className="w-4 h-4" />, // Palette icon
     },
     {
       name: 'Ocean',
       value: 'ocean',
-      background: 'bg-gradient-to-r from-blue-500 to-teal-400', 
+      background: 'bg-gradient-to-r from-blue-500 to-teal-400', // Gradient background (blue to teal)
       text: 'text-white',
-      icon: <Droplet className="w-4 h-4" />, 
+      icon: <Droplet className="w-4 h-4" />, // Droplet icon
     },
     {
       name: 'Forest',
       value: 'forest',
-      background: 'bg-gradient-to-r from-green-600 to-emerald-500', 
+      background: 'bg-gradient-to-r from-green-600 to-emerald-500', // Gradient background (green to emerald)
       text: 'text-white',
-      icon: <Moon className="w-4 h-4" />, 
+      icon: <Moon className="w-4 h-4" />, // Moon icon
     },
     {
       name: 'Galaxy',
       value: 'galaxy',
-      background: 'bg-gradient-to-r from-purple-800 to-indigo-900', 
+      background: 'bg-gradient-to-r from-purple-800 to-indigo-900', // Gradient background (purple to indigo)
       text: 'text-white',
-      icon: <Sparkles className="w-4 h-4" />, 
+      icon: <Sparkles className="w-4 h-4" />, // Sparkles icon
     },
     {
       name: 'Candy',
       value: 'candy',
-      background: 'bg-gradient-to-r from-pink-400 to-yellow-300', 
-      text: 'text-gray-900', 
-      icon: <Palette className="w-4 h-4" />, 
+      background: 'bg-gradient-to-r from-pink-400 to-yellow-300', // Gradient background (pink to yellow)
+      text: 'text-gray-900', // Text color (dark gray)
+      icon: <Palette className="w-4 h-4" />, // Palette icon
     },
   ];
 
-  // Function to change the theme when a user clicks on an option
+  // Function to change the theme when a theme is clicked
   const handleThemeChange = (selectedTheme) => {
-    setTheme(selectedTheme); // Update the theme state with the selected one
-    document.body.className = `${selectedTheme}-theme`; // Apply the selected theme to the webpage
-    setIsOpen(false); // Close the theme menu after selecting
+    setTheme(selectedTheme); // Update the selected theme
+    document.body.className = `${selectedTheme}-theme`; // Apply the theme to the whole page
+    setIsOpen(false); // Close the dropdown after selecting a theme
   };
 
   return (
     <>
-      {/* Button that opens the theme selection menu */}
-      <button onClick={() => setIsOpen(true)} className="trigger-button">
-        <Palette className="w-5 h-5 text-gray-700" /> {/* Theme selection icon */}
+      {/* Button to open the theme dropdown */}
+      <button
+        onClick={() => setIsOpen(true)} // Open the dropdown when clicked
+        className="trigger-button"
+      >
+        <Palette className="w-5 h-5 text-gray-700" /> {/* Palette icon */}
         <span className="text-sm font-medium text-gray-700">Themes</span> {/* Button text */}
-        <ChevronDown className="w-4 h-4 text-gray-700" /> {/* Small down arrow icon */}
+        <ChevronDown className="w-4 h-4 text-gray-700" /> {/* Down arrow icon */}
       </button>
 
-      {/* Only show the theme selection menu if isOpen is true */}
+      {/* Show the dropdown only if isOpen is true */}
       {isOpen && (
-        <>
-          {/* Dark background overlay (closes the menu when clicked outside) */}
-          <div className="modal-backdrop" onClick={() => setIsOpen(false)}></div>
-
-          {/* The actual theme selection popup */}
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            {/* Header of the theme menu */}
+        <div className="modal-backdrop" onClick={() => setIsOpen(false)}> {/* Close dropdown when clicking outside */}
+          <div className="modal-content" onClick={e => e.stopPropagation()}> {/* Prevent clicks inside the dropdown from closing it */}
             <div className="modal-header">
-              <h2 className="modal-title">Choose a Theme!</h2> {/* Title text */}
-              <button onClick={() => setIsOpen(false)} className="close-button">
-                <X className="w-5 h-5 text-gray-500" /> {/* X icon for closing the menu */}
+              <h2 className="modal-title">Choose Theme</h2> {/* Dropdown title */}
+              <button
+                onClick={() => setIsOpen(false)} // Close the dropdown when X is clicked
+                className="close-button"
+              >
+                <X className="w-5 h-5 text-gray-500" /> {/* X icon */}
               </button>
             </div>
 
-            {/* Container for the list of themes */}
+            {/* Grid to display all the theme options */}
             <div className="theme-grid">
               {themes.map((themeOption) => (
                 <button
-                  key={themeOption.value} // Each button needs a unique key
-                  onClick={() => handleThemeChange(themeOption.value)} // Call function to change theme
+                  key={themeOption.value} // Unique key for each theme
+                  onClick={() => handleThemeChange(themeOption.value)} // Change theme when clicked
                   className={`theme-button ${themeOption.background} ${themeOption.text}`} // Apply theme colors
                 >
-                  <span className="text-sm font-medium">{themeOption.name}</span> {/* Display theme name */}
-                  {themeOption.icon} {/* Display theme icon */}
+                  <span className="text-sm font-medium">{themeOption.name}</span> {/* Theme name */}
+                  {themeOption.icon} {/* Theme icon */}
                 </button>
               ))}
             </div>
           </div>
-        </>
+        </div>
       )}
     </>
   );
 };
 
-export default ThemeDropdown;
+export default ThemeSelector; // Export the component so it can be used elsewhere
