@@ -1,5 +1,5 @@
 import React from 'react';
-import ThemeDropdown from './components/ThemeDropdown.jsx'; // Import the ThemeDropdown component
+import ThemeDropdown from './components/Themes/ThemeDropdown.jsx'; // Import the ThemeDropdown component
 import Timerpage from './components/Timer/Timerlogic.jsx'; // Your main component
 
 const App = () => {
