@@ -1,7 +1,7 @@
 import React, { useState } from 'react'; // Import React and the useState hook
 import { Palette, Moon, Sun, Droplet, Sparkles, ChevronDown, X } from 'lucide-react'; // Import cool icons
 
-const ThemeSelector = () => {
+const ThemeSelector = ({ onThemeChange }) => {
   // State to track if the theme dropdown is open or closed
   const [isOpen, setIsOpen] = useState(false);
 
@@ -49,7 +49,7 @@ const ThemeSelector = () => {
       name: 'Candy',
       value: 'candy',
       background: 'bg-gradient-to-r from-pink-400 to-yellow-300', // Gradient background (pink to yellow)
-      text: 'text-gray-900', // Text color (dark gray)
+      text: 'ffffff', // Text color (dark gray)
       icon: <Palette className="w-4 h-4" />, // Palette icon
     },
   ];
@@ -59,6 +59,7 @@ const ThemeSelector = () => {
     setTheme(selectedTheme); // Update the selected theme
     document.body.className = `${selectedTheme}-theme`; // Apply the theme to the whole page
     setIsOpen(false); // Close the dropdown after selecting a theme
+    onThemeChange(selectedTheme); // Notify parent component of the theme change
   };
 
   return (
@@ -70,7 +71,6 @@ const ThemeSelector = () => {
       >
         <Palette className="w-5 h-5 text-gray-700" /> {/* Palette icon */}
         <span className="text-sm font-medium text-gray-700">Themes</span> {/* Button text */}
-        <ChevronDown className="w-4 h-4 text-gray-700" /> {/* Down arrow icon */}
       </button>
 
       {/* Show the dropdown only if isOpen is true */}
@@ -107,4 +107,4 @@ const ThemeSelector = () => {
   );
 };
 
-export default ThemeSelector; // Export the component so it can be used elsewhere
+export default ThemeSelector;
