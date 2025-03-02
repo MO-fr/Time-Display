@@ -46,6 +46,8 @@ npm run dev
 - Use the **Reset** button to reset the timer.  
 
 ---
+##  ❗❗ Annoucments
+- The settings and menu tab point to nothing for the time being, i will add updates later making them more usful.
 
 # 🔮 Future Updates  
 
