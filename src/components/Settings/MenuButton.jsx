@@ -9,8 +9,10 @@ const MenuSlider = () => {
 
   // These are the items that will show up in the menu, like "Home" and "Settings."
   const menuItems = [
-    { name: 'Home', path: '#' }, // These here are for the time being, they dont do anything yet
-    { name: 'Settings', path: '#' }
+    { name: 'Home', path: 'src\components\Timer' }, // These here are for the time being, they dont do anything yet
+    { name: 'Settings', path: '#' },
+    {name: ' Feedback', path: '#'}
+
   ];
 
   return (
