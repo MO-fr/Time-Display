@@ -11,7 +11,7 @@ const Timerlogic = () => {
   const [inputMinutes, setInputMinutes] = useState(0); // Stores user input minutes
   const [inputSeconds, setInputSeconds] = useState(0); // Stores user input seconds
   const toastShown = useRef(false); // ✅ Ref to track if toast has been shown
-
+  
   // ✅ useEffect hook runs when 'isRunning' or 'isStopwatch' changes
   useEffect(() => {
     let intervalId;
@@ -26,7 +26,7 @@ const Timerlogic = () => {
               setIsRunning(false); // Stop the timer
 
               if (!toastShown.current) {
-                toast.info("🔥 Time's up!"); // ✅ Show toast once
+                toast.success("🔥 Streak Started, keep it going!"); // ✅ Show toast once
                 toastShown.current = true; // ✅ Prevent duplicate toasts
               }
 

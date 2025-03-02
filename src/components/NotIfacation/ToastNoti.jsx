@@ -6,7 +6,7 @@ const ToastNoti = () => {
 };
 
 // ✅ Function to show toast messages anywhere
-export const showToast = (message, type = "info") => {
+export const showToast = (message, type = "success") => {
   switch (type) {
     case "success":
       toast.success(message);
