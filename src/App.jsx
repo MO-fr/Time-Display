@@ -1,6 +1,6 @@
 import React from 'react';
 import ThemeDropdown from './components/Themes/ThemeDropdown.jsx'; // Import the ThemeDropdown component
-import ToastNoti from './components/NotIfacation/ToastNoti.jsx';
+import ToastNoti from './components/NotIfacation/ToastTypes.jsx';
 import Timerpage from './components/Timer/Timerlogic.jsx'; // Your main component
 import MenuButtonWithSlider from './components/Settings/MenuButton.jsx'; // Import the Menu Button Component
 
@@ -19,13 +19,12 @@ const App = () => {
       <ToastNoti position="bottom-right" richcolors />
 
       {/* Your existing app content */}
-      <h1 className="text-4xl font-bold text-center mt-10">The Focus Tracker!</h1>
+      <h1 className="text-4xl font-bold text-center mt-10"></h1>
       <Timerpage /> {/* Your main app logic */}
 
     </div>
   );
 };
 
-//
 
 export default App;

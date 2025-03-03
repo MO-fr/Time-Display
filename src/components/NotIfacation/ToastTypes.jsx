@@ -5,7 +5,7 @@ const ToastNoti = () => {
   return <Toaster position="bottom-right" richColors />; // Toast UI settings
 };
 
-// ✅ Function to show toast messages anywhere
+// a Function to show toasts anywhere ont the site
 export const showToast = (message, type = "success") => {
   switch (type) {
     case "success":

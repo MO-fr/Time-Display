@@ -1,18 +1,15 @@
-import React, { useState, useEffect, useRef } from "react";
-import { toast } from "sonner"; // ✅ Import Sonner's toast function
-import TimerUI from "./TimerUI"; // ✅ Component for displaying the timer UI
+import React, { useState, useEffect } from "react";
+import TimerUI from "./TimerUI"; // ✅ This component handles displaying the timer UI
+import StreakManager from "./StreakManager.jsx"; // ✅ Import the new StreakManager component
 
 const Timerlogic = () => {
-  // ✅ State variables for timer behavior
-  const [time, setTime] = useState(0); // Stores current time in seconds
-  const [isRunning, setIsRunning] = useState(false); // Tracks if the timer is running
-  const [isStopwatch, setIsStopwatch] = useState(true); // Tracks if in stopwatch (up) or timer (down) mode
-  const [inputHours, setInputHours] = useState(0); // Stores user input hours
-  const [inputMinutes, setInputMinutes] = useState(0); // Stores user input minutes
-  const [inputSeconds, setInputSeconds] = useState(0); // Stores user input seconds
-  const toastShown = useRef(false); // ✅ Ref to track if toast has been shown
-  
-  // ✅ useEffect hook runs when 'isRunning' or 'isStopwatch' changes
+  const [time, setTime] = useState(0);
+  const [isRunning, setIsRunning] = useState(false);
+  const [isStopwatch, setIsStopwatch] = useState(true);
+  const [inputHours, setInputHours] = useState(0);
+  const [inputMinutes, setInputMinutes] = useState(0);
+  const [inputSeconds, setInputSeconds] = useState(0);
+
   useEffect(() => {
     let intervalId;
 
@@ -20,35 +17,21 @@ const Timerlogic = () => {
       intervalId = setInterval(() => {
         setTime((prevTime) => {
           if (isStopwatch) {
-            return prevTime + 1; // Stopwatch mode: count up
+            return prevTime + 1;
           } else {
             if (prevTime <= 1) {
-              setIsRunning(false); // Stop the timer
-
-              if (!toastShown.current) {
-                toast.success("🔥 Streak Started, keep it going!"); // ✅ Show toast once
-                toastShown.current = true; // ✅ Prevent duplicate toasts
-              }
-
-              return 0; // Ensure the timer stays at 0
+              setIsRunning(false);
+              return 0;
             }
-            return prevTime - 1; // Timer mode: count down
+            return prevTime - 1;
           }
         });
       }, 1000);
     }
 
-    return () => clearInterval(intervalId); // Cleanup function to stop the interval
+    return () => clearInterval(intervalId);
   }, [isRunning, isStopwatch]);
 
-  // ✅ Reset toast flag when timer restarts
-  useEffect(() => {
-    if (!isRunning) {
-      toastShown.current = false; // ✅ Reset when timer stops
-    }
-  }, [isRunning]);
-
-  // ✅ Function to format time into HH:MM:SS
   const formatTime = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -56,19 +39,15 @@ const Timerlogic = () => {
     return `${hrs.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
-  // ✅ Toggles timer start/stop
   const handleStartStop = () => {
     setIsRunning(!isRunning);
   };
 
-  // ✅ Resets timer to 0
   const handleReset = () => {
     setTime(0);
     setIsRunning(false);
-    toastShown.current = false; // ✅ Reset toast flag
   };
 
-  // ✅ Switches between stopwatch and timer mode
   const handleModeSwitch = () => {
     setIsStopwatch(!isStopwatch);
     setTime(0);
@@ -76,36 +55,36 @@ const Timerlogic = () => {
     setInputHours(0);
     setInputMinutes(0);
     setInputSeconds(0);
-    toastShown.current = false; // ✅ Reset toast flag
   };
 
-  // ✅ Starts countdown timer with user input
   const startCountdownTimer = () => {
-    const totalSeconds = inputHours * 3600 + inputMinutes * 60 + inputSeconds; // Convert input into seconds
+    const totalSeconds = inputHours * 3600 + inputMinutes * 60 + inputSeconds;
     if (totalSeconds > 0) {
       setTime(totalSeconds);
       setIsRunning(true);
-      toastShown.current = false; // ✅ Reset toast flag
     }
   };
 
   return (
-    <TimerUI
-      time={time}
-      isRunning={isRunning}
-      isStopwatch={isStopwatch}
-      inputHours={inputHours}
-      inputMinutes={inputMinutes}
-      inputSeconds={inputSeconds}
-      formatTime={formatTime}
-      handleStartStop={handleStartStop}
-      handleReset={handleReset}
-      handleModeSwitch={handleModeSwitch}
-      startCountdownTimer={startCountdownTimer}
-      setInputHours={setInputHours}
-      setInputMinutes={setInputMinutes}
-      setInputSeconds={setInputSeconds}
-    />
+    <div>
+      <StreakManager isRunning={isRunning} time={time} isStopwatch={isStopwatch} />
+      <TimerUI
+        time={time}
+        isRunning={isRunning}
+        isStopwatch={isStopwatch}
+        inputHours={inputHours}
+        inputMinutes={inputMinutes}
+        inputSeconds={inputSeconds}
+        formatTime={formatTime}
+        handleStartStop={handleStartStop}
+        handleReset={handleReset}
+        handleModeSwitch={handleModeSwitch}
+        startCountdownTimer={startCountdownTimer}
+        setInputHours={setInputHours}
+        setInputMinutes={setInputMinutes}
+        setInputSeconds={setInputSeconds}
+      />
+    </div>
   );
 };
 

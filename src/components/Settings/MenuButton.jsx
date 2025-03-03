@@ -11,7 +11,8 @@ const MenuSlider = () => {
   const menuItems = [
     { name: 'Home', path: 'src\components\Timer' }, // These here are for the time being, they dont do anything yet
     { name: 'Settings', path: '#' },
-    {name: ' Feedback', path: '#'}
+    {name: ' Feedback', path: '#'},
+    {name: 'Streak', path: "#" }, // this goes to the streaks page showing the streak 
 
   ];
 
