@@ -1,37 +1,78 @@
 import React, { useState, useEffect } from "react";
 import TimerUI from "./TimerUI"; // ✅ This component handles displaying the timer UI
-import StreakManager from "./StreakManager.jsx"; // ✅ Import the new StreakManager component
+import StreakManager from "./StreakManager.jsx"; // ✅ Manages streak tracking
 
-const Timerlogic = () => {
-  const [time, setTime] = useState(0);
-  const [isRunning, setIsRunning] = useState(false);
-  const [isStopwatch, setIsStopwatch] = useState(true);
-  const [inputHours, setInputHours] = useState(0);
-  const [inputMinutes, setInputMinutes] = useState(0);
-  const [inputSeconds, setInputSeconds] = useState(0);
+const TimerLogic = () => {
+  // ⏳ State for the timer (grouped together)
+  const [timerState, setTimerState] = useState({
+    time: 0,          // Stores the current timer value (in seconds)
+    isRunning: false, // Checks if the timer is running or stopped
+    isStopwatch: true // true = stopwatch mode, false = countdown mode
+  });
 
+  // ⏱️ State for the user’s input time (grouped together)
+  const [inputTime, setInputTime] = useState({ hours: 0, minutes: 0, seconds: 0 });
+
+  // ⏰ Updates the timer state
+  const updateTimerState = (updates) => {
+    setTimerState((prev) => ({ ...prev, ...updates }));
+  };
+
+  // ⌨️ Updates the input time based on user input
+  const updateInputTime = (field, value) => {
+    setInputTime((prev) => ({ ...prev, [field]: value }));
+  };
+
+  // 🕒 Controls the timer's countdown or stopwatch logic
   useEffect(() => {
     let intervalId;
 
-    if (isRunning) {
+    if (timerState.isRunning) {
       intervalId = setInterval(() => {
-        setTime((prevTime) => {
-          if (isStopwatch) {
-            return prevTime + 1;
+        setTimerState((prev) => {
+          if (prev.isStopwatch) {
+            // If it's a stopwatch, count UP
+            return { ...prev, time: prev.time + 1 };
           } else {
-            if (prevTime <= 1) {
-              setIsRunning(false);
-              return 0;
+            // If it's a countdown, count DOWN
+            if (prev.time <= 1) {
+              clearInterval(intervalId); // Stop at 0
+              return { ...prev, time: 0, isRunning: false };
             }
-            return prevTime - 1;
+            return { ...prev, time: prev.time - 1 };
           }
         });
       }, 1000);
     }
 
-    return () => clearInterval(intervalId);
-  }, [isRunning, isStopwatch]);
+    return () => clearInterval(intervalId); // Clean up when the timer stops
+  }, [timerState.isRunning, timerState.isStopwatch]);
 
+  // ⏳ Start or stop the timer
+  const handleStartStop = () => {
+    updateTimerState({ isRunning: !timerState.isRunning });
+  };
+
+  // 🔄 Reset the timer
+  const handleReset = () => {
+    updateTimerState({ time: 0, isRunning: false });
+  };
+
+  // 🔄 Switch between stopwatch & countdown mode
+  const handleModeSwitch = () => {
+    updateTimerState({ time: 0, isRunning: false, isStopwatch: !timerState.isStopwatch });
+    setInputTime({ hours: 0, minutes: 0, seconds: 0 }); // Reset input fields
+  };
+
+  // ⏳ Start countdown with user input
+  const startCountdownTimer = () => {
+    const totalSeconds = inputTime.hours * 3600 + inputTime.minutes * 60 + inputTime.seconds;
+    if (totalSeconds > 0) {
+      updateTimerState({ time: totalSeconds, isRunning: true });
+    }
+  };
+
+  // ⏲️ Format time from seconds → HH:MM:SS format
   const formatTime = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
@@ -39,53 +80,24 @@ const Timerlogic = () => {
     return `${hrs.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
-  const handleStartStop = () => {
-    setIsRunning(!isRunning);
-  };
-
-  const handleReset = () => {
-    setTime(0);
-    setIsRunning(false);
-  };
-
-  const handleModeSwitch = () => {
-    setIsStopwatch(!isStopwatch);
-    setTime(0);
-    setIsRunning(false);
-    setInputHours(0);
-    setInputMinutes(0);
-    setInputSeconds(0);
-  };
-
-  const startCountdownTimer = () => {
-    const totalSeconds = inputHours * 3600 + inputMinutes * 60 + inputSeconds;
-    if (totalSeconds > 0) {
-      setTime(totalSeconds);
-      setIsRunning(true);
-    }
-  };
-
   return (
     <div>
-      <StreakManager isRunning={isRunning} time={time} isStopwatch={isStopwatch} />
+      {/* Tracks streaks based on usage */}
+      <StreakManager isRunning={timerState.isRunning} time={timerState.time} isStopwatch={timerState.isStopwatch} />
+
+      {/* Timer UI receives only necessary props */}
       <TimerUI
-        time={time}
-        isRunning={isRunning}
-        isStopwatch={isStopwatch}
-        inputHours={inputHours}
-        inputMinutes={inputMinutes}
-        inputSeconds={inputSeconds}
+        timerState={timerState}
+        inputTime={inputTime}
         formatTime={formatTime}
         handleStartStop={handleStartStop}
         handleReset={handleReset}
         handleModeSwitch={handleModeSwitch}
         startCountdownTimer={startCountdownTimer}
-        setInputHours={setInputHours}
-        setInputMinutes={setInputMinutes}
-        setInputSeconds={setInputSeconds}
+        updateInputTime={updateInputTime}
       />
     </div>
   );
 };
 
-export default Timerlogic;
+export default TimerLogic;
