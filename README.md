@@ -64,5 +64,35 @@ Stay tuned for more enhancements! 🚀
 # 📜 License  
 - MIT License
 
+---
+
+#  ❗❗ Timer Logic component updates 
+
+    ### 1️⃣ **TimerLogic.jsx** (Manages Timer Logic)  
+🔹 **Handles time updates** – Starts, stops, and resets the timer.  
+🔹 **Switches between stopwatch & countdown** – Lets users pick a mode.  
+🔹 **Manages user input** – Takes hours, minutes, and seconds for countdown mode.  
+🔹 **Keeps track of running state** – Controls whether the timer is running or paused.  
+🔹 **Uses `useEffect`** – Updates the timer every second when running.  
+
+💡 **Why It's Better?**  
+✅ Groups related states together (time, isRunning, isStopwatch).  
+✅ Uses one function to update input fields dynamically.  
+✅ Makes the code shorter and easier to maintain.  
+
+---
+
+#  ❗❗ Timer UI component updates 
+    ### 2️⃣ **TimerUI.jsx** (Handles Display & Controls)  
+🔹 **Shows the formatted time** – Displays the time in HH:MM:SS format.  
+🔹 **Provides input fields** – Allows users to enter hours, minutes, and seconds.  
+🔹 **Has control buttons** – Start, pause, reset, and switch modes easily.  
+🔹 **Uses icons** – Play, pause, reset, and switch mode icons for better UX.  
+
+💡 **Why It's Better?**  
+✅ Fewer props – Uses `timerState` and `inputTime` instead of passing many values.  
+✅ Cleaner and easier to understand.  
+✅ Works perfectly with `TimerLogic.jsx`. 
+
 
 
