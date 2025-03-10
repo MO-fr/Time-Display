@@ -7,7 +7,7 @@ const TimerLogic = () => {
   const [timerState, setTimerState] = useState({
     time: 0,          // Stores the current timer value (in seconds)
     isRunning: false, // Checks if the timer is running or stopped
-    isStopwatch: true // true = stopwatch mode, false = countdown mode
+    isStopwatch: false // true = stopwatch mode, false = countdown mode (i can switch any time)
   });
 
   // ⏱ State for the user’s input time (grouped together)
