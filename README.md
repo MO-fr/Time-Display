@@ -68,7 +68,6 @@ Stay tuned for more enhancements! 🚀
 
 #  ❗❗ Timer Logic component updates 
 
-    ### 1️⃣ **TimerLogic.jsx** (Manages Timer Logic)  
 🔹 **Handles time updates** – Starts, stops, and resets the timer.  
 🔹 **Switches between stopwatch & countdown** – Lets users pick a mode.  
 🔹 **Manages user input** – Takes hours, minutes, and seconds for countdown mode.  
@@ -83,7 +82,7 @@ Stay tuned for more enhancements! 🚀
 ---
 
 #  ❗❗ Timer UI component updates 
-    ### 2️⃣ **TimerUI.jsx** (Handles Display & Controls)  
+
 🔹 **Shows the formatted time** – Displays the time in HH:MM:SS format.  
 🔹 **Provides input fields** – Allows users to enter hours, minutes, and seconds.  
 🔹 **Has control buttons** – Start, pause, reset, and switch modes easily.  
