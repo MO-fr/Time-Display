@@ -1,5 +1,6 @@
 import React from "react";
 import { Play, Pause, RotateCcw, Timer, Clock } from "lucide-react"; // Icons for buttons
+import ProgressBar from "../Progress/ProgressBar"; // Import the ProgressBar component from the correct folder
 
 const TimerUI = ({
   timerState, // Contains time, isRunning, and isStopwatch
@@ -11,6 +12,18 @@ const TimerUI = ({
   startCountdownTimer, // Function to start countdown
   updateInputTime, // Function to update input fields
 }) => {
+  // Calculate progress for the progress bar
+  const calculateProgress = () => {
+    if (timerState.isStopwatch) {
+      return 0; // No progress for stopwatch mode
+    } else {
+      // For countdown mode, progress is based on the initial countdown time
+      const totalTime = inputTime.hours * 3600 + inputTime.minutes * 60 + inputTime.seconds;
+      if (totalTime === 0) return 0; // Avoid division by zero
+      return ((totalTime - timerState.time) / totalTime) * 100;
+    }
+  };
+
   return (
     <div className="timer-card">
       {/* Switch between Stopwatch & Countdown Mode */}
@@ -79,6 +92,9 @@ const TimerUI = ({
           <RotateCcw className="w-6 h-6" />
         </button>
       </div>
+
+      {/* Progress Bar */}
+      <ProgressBar progress={calculateProgress()} isStopwatch={timerState.isStopwatch} />
     </div>
   );
 };
