@@ -489,7 +489,7 @@ body {
   top: 10px;
   font-size: 20px;
   font-weight: 600;
-  color: #ffffff;
+  color: #000000;
   margin: 0;
 }
 
@@ -654,6 +654,7 @@ body {
 }
 
 .achievement-title {
+  color: black;
   font-size: 14px;
   font-weight: 500;
   margin: 0;

@@ -1,96 +1,32 @@
 import React from 'react';
 import { Clock, Award, Star, Target, Zap, Timer, Heart, Medal, Trophy, AlertTriangle } from 'lucide-react';
+import { useAchievements } from '../../context/AchievementsContext';
 
 const Achievements = () => {
-  const achievements = [
-    {
-      id: 1,
-      title: "First Timer",
-      description: "Set your first timer",
-      icon: <Clock className="icon-blue" />,
-      unlocked: true,
-    },
+  const { achievements } = useAchievements();
 
-    {
-      id: 2,
-      title: "Time Keeper",
-      description: "Complete 5 timers without pausing",
-      icon: <Award className="icon-purple" />,
-      unlocked: true,
-    },
-
-    {
-      id: 3,
-      title: "Early Bird",
-      description: "Set a timer before 7 AM",
-      icon: <Star className="icon-yellow" />,
-      unlocked: true,
-    },
-
-    {
-      id: 4,
-      title: "Focus Master",
-      description: "Complete a 25-minute focus timer 10 times",
-      icon: <Target className="icon-red" />,
-      unlocked: false,
-    },
-
-    {
-      id: 5,
-      title: "Speed Demon",
-      description: "Set and complete 3 timers in one hour",
-      icon: <Zap className="icon-orange" />,
-      unlocked: false,
-    },
-
-    {
-      id: 6,
-      title: "Night Owl",
-      description: "Use the app after midnight for 5 consecutive days",
-      icon: <Timer className="icon-indigo" />,
-      unlocked: false,
-    },
-
-    {
-      id: 7,
-      title: "Consistency King",
-      description: "Use the timer every day for a week",
-      icon: <Heart className="icon-pink" />,
-      unlocked: false,
-    },
-
-    {
-      id: 8,
-      title: "Time Traveler",
-      description: "Set timers in 3 different time zones",
-      icon: <Medal className="icon-green" />,
-      unlocked: false,
-    },
-
-    {
-      id: 9,
-      title: "Marathon Timer",
-      description: "Set a timer longer than 2 hours",
-      icon: <Trophy className="icon-amber" />,
-      unlocked: false,
-    },
-
-    {
-      id: 10,
-      title: "Timer Enthusiast",
-      description: "Reach a total of 100 timers completed",
-      icon: <AlertTriangle className="icon-teal" />,
-      unlocked: false,
-    },
-
-  ];
+  const getIcon = (iconName) => {
+    const icons = {
+      Clock: <Clock className="icon-blue" />,
+      Award: <Award className="icon-purple" />,
+      Star: <Star className="icon-yellow" />,
+      Target: <Target className="icon-red" />,
+      Zap: <Zap className="icon-orange" />,
+      Timer: <Timer className="icon-indigo" />,
+      Heart: <Heart className="icon-pink" />,
+      Medal: <Medal className="icon-green" />,
+      Trophy: <Trophy className="icon-amber" />,
+      AlertTriangle: <AlertTriangle className="icon-teal" />,
+    };
+    return icons[iconName];
+  };
 
   return (
     <div className="achievements-container">
       <div className="achievements-content">
         <h1 className="achievements-title">Achievements</h1>
         <div className="achievements-list">
-          {achievements.map((achievement) => (
+          {Object.values(achievements).map((achievement) => (
             <div
               key={achievement.id}
               className={`achievement-card ${
@@ -98,7 +34,7 @@ const Achievements = () => {
               }`}
             >
               <div className="achievement-icon-container">
-                {achievement.icon}
+                {getIcon(achievement.icon)}
               </div>
               <div className="achievement-details">
                 <h2 className="achievement-title">{achievement.title}</h2>

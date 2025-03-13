@@ -88,7 +88,7 @@ const MenuSlider = () => {
               }}
             >
               <div className="menu-header">
-                <h2 className="menu-title">Menu</h2>
+                <h2 className="menu-title">Timer Menu</h2>
                 <button
                   onClick={() => setIsOpen(false)}
                   className="menu-close-button"
