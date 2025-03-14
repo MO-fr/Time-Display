@@ -1,22 +1,37 @@
 import React, { useEffect } from "react";
-import { toast } from "sonner"; // Import Sonner's toast function
+import { toast } from "sonner";
 
-const ToastManger = ({ isRunning, time, isStopwatch }) => {
+//  timer completion notifications
+const TimerCompletionToast = ({ isRunning, time, isStopwatch }) => {
   useEffect(() => {
     let intervalId;
 
     if (isRunning) {
       intervalId = setInterval(() => {
         if (!isStopwatch && time <= 1) {
-          toast.success(`Time's up!`); // Show toast when time is 1 second or less
+          toast.success(`Time's up!`);
         }
       }, 1000);
     }
 
-    return () => clearInterval(intervalId); // Cleanup interval when component unmounts or dependencies change
-  }, [isRunning, isStopwatch, time]); // Re-run effect when isRunning, isStopwatch, or time changes
+    return () => clearInterval(intervalId);
+  }, [isRunning, isStopwatch, time]);
 
-  return null; // No UI to display
+  return null;
 };
 
-export default ToastManger;
+//achievement Toast notifications
+export const showAchievementToast = (achievementId, achievementName, shownToasts) => {
+  if (!shownToasts.current.has(achievementId)) {
+    toast.success(`🏆 Achievement Unlocked: ${achievementName}!`, {
+      position: "bottom-left"
+    });
+    shownToasts.current.add(achievementId);
+  }
+};
+
+const ToastManager = (props) => {
+  return <TimerCompletionToast {...props} />;
+};
+
+export default ToastManager;
