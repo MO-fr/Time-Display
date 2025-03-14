@@ -1,17 +1,21 @@
 import React, { createContext, useContext, useState } from "react";
 
+// Create a context to share achievement data across components
 const AchievementsContext = createContext();
 
+// Custom hook to use the AchievementsContext easily
 export const useAchievements = () => useContext(AchievementsContext);
 
+// Provider component to wrap around the app and manage achievements
 export const AchievementsProvider = ({ children }) => {
+  // State to keep track of achievements and whether they are unlocked
   const [achievements, setAchievements] = useState({
     firstTimer: {
       id: 1,
       title: "First Timer",
       description: "Set your first timer",
       icon: "Clock",
-      unlocked: false,
+      unlocked: false, // Starts as locked
     },
     fiveTimers: {
       id: 2,
@@ -78,23 +82,25 @@ export const AchievementsProvider = ({ children }) => {
     },
   });
 
+  // Function to unlock an achievement
   const unlockAchievement = (achievementId) => {
-    if (!achievements[achievementId].unlocked) {
+    if (!achievements[achievementId].unlocked) { // Check if it's already unlocked
       setAchievements((prev) => ({
         ...prev,
         [achievementId]: {
           ...prev[achievementId],
-          unlocked: true,
+          unlocked: true, // Mark as unlocked
         },
       }));
-      // Optional: Add notification when achievement is unlocked
+      // Log a message when an achievement is unlocked
       console.log(`Achievement unlocked: ${achievements[achievementId].title}!`);
     }
   };
 
   return (
+    // Provide achievements and unlock function to the entire app
     <AchievementsContext.Provider value={{ achievements, unlockAchievement }}>
-      {children}
+      {children} {/* Render child components */}
     </AchievementsContext.Provider>
   );
 };
