@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { toast } from "sonner"; // Import Sonner's toast function
 
-const StreakManager = ({ isRunning, time, isStopwatch }) => {
+const ToastManger = ({ isRunning, time, isStopwatch }) => {
   useEffect(() => {
     let intervalId;
 
@@ -19,4 +19,4 @@ const StreakManager = ({ isRunning, time, isStopwatch }) => {
   return null; // No UI to display
 };
 
-export default StreakManager;
+export default ToastManger;
