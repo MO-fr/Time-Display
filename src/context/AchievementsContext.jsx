@@ -89,7 +89,7 @@ export const AchievementsProvider = ({ children }) => {
         ...prev,
         [achievementId]: {
           ...prev[achievementId],
-          unlocked: true, // Mark as unlocked
+          unlocked: true, // Mark as unlocked once the achievement is done 
         },
       }));
       // Log a message when an achievement is unlocked
