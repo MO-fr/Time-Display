@@ -19,7 +19,7 @@ export const AchievementsProvider = ({ children }) => {
     },
     fiveTimers: {
       id: 2,
-      title: "5 Timers",
+      title: "Triple Timer",
       description: "Complete 5 timers",
       icon: "Award",
       unlocked: false,

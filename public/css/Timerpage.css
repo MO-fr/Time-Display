@@ -596,6 +596,8 @@ body {
 }
 
 .achievements-content {
+  /* position: relative;
+  right: 90px; */
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -752,4 +754,244 @@ body {
   background-color: #a914c7;
   border-radius: 5px;
   transition: width 0.5s ease-in-out;
+}
+
+/* CSS FOR THE STREAK CARD */
+
+/* Base Layout */
+.page-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.achievements-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Achievements Card Styles - Your existing styles */
+.achievements-content {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 65%;
+  flex-grow: 1;
+}
+
+.achievements-title {
+  color: black;
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.achievements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 500px; /* Set a fixed height for scrollability */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 10px; /* Add some padding for the scrollbar */
+}
+
+.achievement-card {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+}
+
+.achievement-card.unlocked {
+  border-left: 4px solid #4caf50;
+}
+
+.achievement-card.locked {
+  border-left: 4px solid #f44336;
+  background-color: #f8fafc;
+}
+
+.achievement-icon-container {
+  padding: 8px;
+  border-radius: 9999px;
+  background-color: #f1f5f9;
+  margin-right: 10px;
+}
+
+.achievement-card.locked .achievement-icon-container {
+  background-color: #e2e8f0;
+}
+
+.achievement-details {
+  flex-grow: 1;
+}
+
+.achievement-title {
+  color: black;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  margin-bottom: 2px;
+}
+
+.achievement-description {
+  font-size: 12px;
+  color: #64748b;
+  margin: 0;
+}
+
+.lock-icon {
+  color: #94a3b8;
+  margin-left: 10px;
+}
+
+.lock-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Customize scrollbar appearance */
+.achievements-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.achievements-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.achievements-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.achievements-list::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+/* Icon colors */
+.icon-blue {
+  color: #3b82f6;
+}
+
+.icon-purple {
+  color: #8b5cf6;
+}
+
+.icon-yellow {
+  color: #eab308;
+}
+
+.icon-red {
+  color: #ef4444;
+}
+
+.icon-orange {
+  color: #f97316;
+}
+
+.icon-indigo {
+  color: #6366f1;
+}
+
+.icon-pink {
+  color: #ec4899;
+}
+
+.icon-green {
+  color: #22c55e;
+}
+
+.icon-amber {
+  color: #f59e0b;
+}
+
+.icon-teal {
+  color: #14b8a6;
+}
+/* ANALYTICS CARD */
+.analytics-container {
+  position: relative;
+  display: flex;
+}
+
+.analytics-main-content {
+  position: relative;
+  z-index: 10;
+}
+
+.analytics-toggle-btn {
+  position: absolute;
+  top: 12%;
+  right: 60px;
+  transform: translate(50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ef4444, #dc2626);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  z-index: 20;
+}
+
+.analytics-toggle-btn:hover {
+  background: linear-gradient(145deg, #dc2626, #b91c1c);
+  transform: translate(50%, -50%) scale(1.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+.analytics-toggle-btn:active {
+  background: linear-gradient(145deg, #991b1b, #7f1d1d);
+  transform: translate(50%, -50%) scale(0.95);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.analytics-icon {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.analytics-slide-panel {
+  position: absolute;
+  top: 0;
+  left: calc(100% + 20px); /* Add 20px space between cards */
+  height: 100%;
+  width: 80%; /* Make the card smaller - 80% of timer width */
+  background: linear-gradient(145deg, #b91c1c, #991b1b);
+  border-radius: 20px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  z-index: 0;
+}
+
+.analytics-panel-content {
+  padding: 8px;
+  height: 100%;
+  color: white;
+  overflow-y: auto; /* Allow scrolling if content overflows */
+}
+
+.analytics-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
 }

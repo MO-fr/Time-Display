@@ -20,7 +20,7 @@ const AchievementsTracker = ({ timerState, completedTimers, timersInHour }) => {
       // 5 Timers Achievement
       if (completedTimers === 5) {
         unlockAchievement('fiveTimers');
-        showAchievementToast('fiveTimers', 'Five Timers', shownToasts);
+        showAchievementToast('fiveTimers', 'Triple Timer', shownToasts);
       }
 
       // 10 Timers Achievement

@@ -9,7 +9,7 @@ const MenuSlider = () => {
     { name: "Home", path: "/" }, // Updated path
     { name: "Settings", path: "/settings" }, // Updated path
     { name: "Feedback", path: "/feedback" }, // Updated path
-    { name: "Achievements", path: "/achievements" }, // Updated path
+    { name: "Progress Hub", path: "/achievements" }, // Updated path
   ];
 
   // Variants for the menu backdrop and panel
