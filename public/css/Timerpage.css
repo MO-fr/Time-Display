@@ -915,7 +915,7 @@ body {
 .icon-teal {
   color: #14b8a6;
 }
-/* ANALYTICS CARD */
+/* Analytics Card Styles */
 .analytics-container {
   position: relative;
   display: flex;
@@ -968,9 +968,9 @@ body {
 .analytics-slide-panel {
   position: absolute;
   top: 0;
-  left: calc(100% + 20px); /* Add 20px space between cards */
+  left: calc(100% + 20px);
   height: 100%;
-  width: 80%; /* Make the card smaller - 80% of timer width */
+  width: 400px; /* Fixed width for better chart display */
   background: linear-gradient(145deg, #b91c1c, #991b1b);
   border-radius: 20px;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
@@ -979,19 +979,81 @@ body {
 }
 
 .analytics-panel-content {
-  padding: 8px;
+  padding: 0 20px;
   height: 100%;
   color: white;
-  overflow-y: auto; /* Allow scrolling if content overflows */
+  display: flex;
+  flex-direction: column;
+}
+
+.analytics-chart-container {
+  position: relative;
+  top: 41px;
+  height: 350px;
+  background: transparent; /* Make the background fully transparent */
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: none; /* Remove any shadow */
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.analytics-chart-container .recharts-responsive-container {
+  height: 300px !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .analytics-slide-panel {
+    width: 350px;
+  }
+}
+
+@media (max-width: 768px) {
+  .analytics-slide-panel {
+    width: 300px;
+  }
+  
+  .analytics-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Chart tooltip customization */
+.recharts-tooltip-wrapper {
+  background: rgba(0, 0, 0, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 8px !important;
+}
+
+.recharts-tooltip-label {
+  color: white !important;
+}
+
+/* Chart grid lines */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Chart axis labels */
+.recharts-text {
+  fill: rgba(255, 255, 255, 0.8) !important;
 }
 
 .analytics-placeholder {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  width: 90%;
+  margin: 20px auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100%;
-  color: rgba(255, 255, 255, 0.8);
-  font-family: 'Poppins', sans-serif;
-  font-size: 1rem;
+  align-items: center;
+  height: 80%;
+  position: relative;
+  top: 46%;
+  transform: translateY(-50%);
 }

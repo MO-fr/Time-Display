@@ -16,7 +16,7 @@ A sleek, minimalist timer built with React and Vite. Displays elapsed time in **
 
 ## 🛠 Tech Stack  
 - ⚛ **React** (Vite-based setup)  
-- 🎨 **CSS** (Custom styling)  
+- 🎨 **CSS** (Custom styling)
 - 🔗 **Lucide Icons** (For play, pause, reset, and mode-switch buttons)  
 - ☁ **Vercel** (For hosting)  
 

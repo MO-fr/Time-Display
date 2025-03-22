@@ -3,13 +3,14 @@ import TimerUI from "./TimerUI"; // This component handles displaying the timer 
 import StreakManager from "../NotIfacation/ToastNoti.jsx"; // Manages streak tracking
 import { useAchievements } from "../../context/AchievementsContext"; // Custom hook to manage achievements
 import AchievementTracker from "../Achievements/AchievementsTracker"; // Component to track achievements
+import { useAnalytics } from '../../context/AnalyticsContext';
 
 const TimerLogic = () => {
   // State for the timer (grouped together)
   const [timerState, setTimerState] = useState({
     time: 0,          // Stores the current timer value (in seconds)
     isRunning: false, // Checks if the timer is running or stopped
-    isStopwatch: false // true = stopwatch mode, false = countdown mode (i can switch any time)
+    isStopwatch: false // true = stopwatch mode, false = countdown mode
   });
 
   // State for the user’s input time (grouped together)
@@ -23,6 +24,9 @@ const TimerLogic = () => {
 
   // Custom hook to manage achievements
   const { achievements, unlockAchievement } = useAchievements();
+
+  // Hook to track analytics
+  const { updateTimerUsage } = useAnalytics();
 
   // Updates the timer state
   const updateTimerState = (updates) => {
@@ -74,6 +78,9 @@ const TimerLogic = () => {
 
   // Start or stop the timer
   const handleStartStop = () => {
+    if (!timerState.isRunning) {
+      updateTimerUsage(); // Track timer usage when starting
+    }
     updateTimerState({ isRunning: !timerState.isRunning });
   };
 
@@ -92,6 +99,7 @@ const TimerLogic = () => {
   const startCountdownTimer = () => {
     const totalSeconds = inputTime.hours * 3600 + inputTime.minutes * 60 + inputTime.seconds;
     if (totalSeconds > 0) {
+      updateTimerUsage(); // Track timer usage when starting a countdown
       updateTimerState({ time: totalSeconds, isRunning: true });
     }
   };
