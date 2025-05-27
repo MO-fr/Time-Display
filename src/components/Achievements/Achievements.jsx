@@ -1,5 +1,4 @@
 
-import React from 'react';
 import { Clock, Award, Star, Target, Zap, Timer, Heart, Medal, Trophy, AlertTriangle } from 'lucide-react';
 import { useAchievements } from '../../context/AchievementsContext';
 

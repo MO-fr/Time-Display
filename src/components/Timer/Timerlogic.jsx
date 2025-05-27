@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import{ useState, useEffect } from "react";
 import TimerUI from "./TimerUI"; // This component handles displaying the timer UI
 import StreakManager from "../NotIfacation/ToastNoti.jsx"; // Manages streak tracking
 import { useAchievements } from "../../context/AchievementsContext"; // Custom hook to manage achievements

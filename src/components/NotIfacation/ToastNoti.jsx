@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import{ useEffect } from "react";
 import { toast } from "sonner";
 
 //  timer completion notifications

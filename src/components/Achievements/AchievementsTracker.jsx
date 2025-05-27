@@ -1,80 +1,73 @@
-import React, { useEffect, useRef } from "react";
+import PropTypes from "prop-types"; // Import PropTypes for prop validation
+import { useEffect, useRef } from "react";
 import { useAchievements } from "../../context/AchievementsContext";
 import { showAchievementToast } from "../NotIfacation/ToastNoti";
 
 const AchievementsTracker = ({ timerState, completedTimers, timersInHour }) => {
-  const { achievements, unlockAchievement } = useAchievements();
+  const { unlockAchievement } = useAchievements();
   const shownToasts = useRef(new Set());
   const prevCompletedTimers = useRef(completedTimers);
+  const achievementsConfig = useRef({
+    firstTimer: { count: 1, message: "First Timer" },
+    fiveTimers: { count: 5, message: "Triple Timer" },
+    timerEnthusiast: { count: 10, message: "Timer Enthusiast" },
+    proTimer: { count: 50, message: "Pro Timer" },
+    focusMaster: { time: 1500, message: "Focus Master" },
+    longTimer: { time: 3600, message: "Long Timer" },
+    speedDemon: { count: 3, message: "Speed Demon" },
+    earlyBird: { hour: 7, message: "Early Bird" },
+    nightOwl: { hour: 4, message: "Night Owl" },
+  });
 
-  // Separate useEffect for completion-based achievements
   useEffect(() => {
-    // Check if this is a new completion
     if (completedTimers > prevCompletedTimers.current) {
-      // First Timer Achievement
-      if (completedTimers === 1) {
-        unlockAchievement('firstTimer');
-        showAchievementToast('firstTimer', 'First Timer', shownToasts);
-      }
-
-      // 5 Timers Achievement
-      if (completedTimers === 5) {
-        unlockAchievement('fiveTimers');
-        showAchievementToast('fiveTimers', 'Triple Timer', shownToasts);
-      }
-
-      // 10 Timers Achievement
-      if (completedTimers === 10) {
-        unlockAchievement('timerEnthusiast');
-        showAchievementToast('timerEnthusiast', 'Timer Enthusiast', shownToasts);
-      }
-
-      // 50 Timers Achievement
-      if (completedTimers === 50) {
-        unlockAchievement('proTimer');
-        showAchievementToast('proTimer', 'Pro Timer', shownToasts);
-      }
-
-      // Focus Master Achievement (25-minute timer completion)
-      if (timerState.initialTime === 1500) {
-        unlockAchievement('focusMaster');
-        showAchievementToast('focusMaster', 'Focus Master', shownToasts);
-      }
-
-      // Long Timer Achievement
-      if (timerState.initialTime >= 3600) {
-        unlockAchievement('longTimer');
-        showAchievementToast('longTimer', 'Long Timer', shownToasts);
-      }
-
-      // Update the previous completedTimers count
+      Object.keys(achievementsConfig.current).forEach((achievement) => {
+        const config = achievementsConfig.current[achievement];
+        if (config.count && completedTimers === config.count) {
+          unlockAchievement(achievement);
+          showAchievementToast(achievement, config.message, shownToasts);
+        }
+        if (config.time && timerState.initialTime === config.time) {
+          unlockAchievement(achievement);
+          showAchievementToast(achievement, config.message, shownToasts);
+        }
+      });
       prevCompletedTimers.current = completedTimers;
     }
-  }, [completedTimers, timerState.initialTime]);
+  }, [completedTimers, timerState.initialTime, unlockAchievement]);
 
-  // Separate useEffect for time-based achievements
   useEffect(() => {
-    // Speed Demon Achievement
-    if (timersInHour >= 3 && !shownToasts.current.has('speedDemon')) {
-      unlockAchievement('speedDemon');
-      showAchievementToast('speedDemon', 'Speed Demon', shownToasts);
-    }
-
-    // Early Bird Achievement
     const currentHour = new Date().getHours();
-    if (currentHour < 7 && timerState.isRunning && !shownToasts.current.has('earlyBird')) {
-      unlockAchievement('earlyBird');
-      showAchievementToast('earlyBird', 'Early Bird', shownToasts);
+    if (timersInHour >= achievementsConfig.current.speedDemon.count && !shownToasts.current.has("speedDemon")) {
+      unlockAchievement("speedDemon");
+      showAchievementToast("speedDemon", achievementsConfig.current.speedDemon.message, shownToasts);
     }
-
-    // Night Owl Achievement
-    if (currentHour >= 0 && currentHour < 4 && timerState.isRunning && !shownToasts.current.has('nightOwl')) {
-      unlockAchievement('nightOwl');
-      showAchievementToast('nightOwl', 'Night Owl', shownToasts);
+    if (currentHour < achievementsConfig.current.earlyBird.hour && timerState.isRunning && !shownToasts.current.has("earlyBird")) {
+      unlockAchievement("earlyBird");
+      showAchievementToast("earlyBird", achievementsConfig.current.earlyBird.message, shownToasts);
     }
-  }, [timerState.isRunning, timersInHour]);
+    if (
+      currentHour >= 0 &&
+      currentHour < achievementsConfig.current.nightOwl.hour &&
+      timerState.isRunning &&
+      !shownToasts.current.has("nightOwl")
+    ) {
+      unlockAchievement("nightOwl");
+      showAchievementToast("nightOwl", achievementsConfig.current.nightOwl.message, shownToasts);
+    }
+  }, [timerState.isRunning, timersInHour, unlockAchievement]);
 
   return null;
+};
+
+// Add PropTypes for prop validation
+AchievementsTracker.propTypes = {
+  timerState: PropTypes.shape({
+    isRunning: PropTypes.bool.isRequired,
+    initialTime: PropTypes.number.isRequired,
+  }).isRequired,
+  completedTimers: PropTypes.number.isRequired,
+  timersInHour: PropTypes.number.isRequired,
 };
 
 export default AchievementsTracker;

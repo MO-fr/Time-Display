@@ -1,4 +1,3 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 // This component shows a progress bar with a percentage

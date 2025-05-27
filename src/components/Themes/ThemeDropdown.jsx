@@ -1,4 +1,4 @@
-import React, { useState } from 'react'; // Import React and the useState hook
+import{ useState } from 'react'; // Import React and the useState hook
 import { Palette, Moon, Sun, Droplet, Sparkles, ChevronDown, X } from 'lucide-react'; // Import cool icons
 
 const ThemeSelector = ({ onThemeChange }) => {

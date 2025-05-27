@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import PropTypes from 'prop-types'; // Import PropTypes
+import { useState } from 'react';
 import { ChevronRight, BarChart2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -63,6 +64,11 @@ const AnalyticsCard = ({ children }) => {
       </AnimatePresence>
     </div>
   );
+};
+
+// Add PropTypes validation
+AnalyticsCard.propTypes = {
+  children: PropTypes.node, // Validate that children is a React node
 };
 
 export default AnalyticsCard;

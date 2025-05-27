@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ThemeDropdown from './components/Themes/ThemeDropdown.jsx'; // Import the ThemeDropdown component
 import ToastNoti from './components/NotIfacation/ToastTypes.jsx';

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 // Create a context to share achievement data across components
 const AchievementsContext = createContext();
