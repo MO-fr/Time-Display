@@ -1,7 +1,7 @@
-import{ useEffect } from "react";
+import { useEffect } from "react";
+import PropTypes from 'prop-types';
 import { toast } from "sonner";
 
-//  timer completion notifications
 const TimerCompletionToast = ({ isRunning, time, isStopwatch }) => {
   useEffect(() => {
     let intervalId;
@@ -9,7 +9,7 @@ const TimerCompletionToast = ({ isRunning, time, isStopwatch }) => {
     if (isRunning) {
       intervalId = setInterval(() => {
         if (!isStopwatch && time <= 1) {
-          toast.success(`Time's up!`);
+          toast.success("Time's up!");
         }
       }, 1000);
     }
@@ -20,18 +20,24 @@ const TimerCompletionToast = ({ isRunning, time, isStopwatch }) => {
   return null;
 };
 
-//achievement Toast notifications
-export const showAchievementToast = (achievementId, achievementName, shownToasts) => {
-  if (!shownToasts.current.has(achievementId)) {
-    toast.success(`🏆 Achievement Unlocked: ${achievementName}!`, {
-      position: "bottom-left"
-    });
-    shownToasts.current.add(achievementId);
-  }
+TimerCompletionToast.propTypes = {
+  isRunning: PropTypes.bool.isRequired,
+  time: PropTypes.number.isRequired,
+  isStopwatch: PropTypes.bool.isRequired,
 };
 
-const ToastManager = (props) => {
-  return <TimerCompletionToast {...props} />;
+const ToastManager = ({ isRunning, time, isStopwatch }) => {
+  return <TimerCompletionToast 
+    isRunning={isRunning} 
+    time={time} 
+    isStopwatch={isStopwatch} 
+  />;
+};
+
+ToastManager.propTypes = {
+  isRunning: PropTypes.bool.isRequired,
+  time: PropTypes.number.isRequired,
+  isStopwatch: PropTypes.bool.isRequired,
 };
 
 export default ToastManager;

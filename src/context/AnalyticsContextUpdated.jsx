@@ -29,9 +29,11 @@ export const AnalyticsProvider = ({ children }) => {
   }, [timerStats]);
 
   const resetStats = useCallback(() => {
+    console.log('Resetting all timer statistics');
     setTimerStats(initialTimerStats);
     localStorage.removeItem('timerStats');
   }, []);
+
   const updateTimerUsage = useCallback((duration = 0, isCompleted = false) => {
     const today = new Date().toLocaleDateString();
     console.log('Updating timer usage:', { duration, isCompleted, today });

@@ -1,36 +1,51 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import ThemeDropdown from './components/Themes/ThemeDropdown.jsx'; // Import the ThemeDropdown component
+import ThemeDropdown from './components/Themes/ThemeDropdown.jsx';
 import ToastNoti from './components/NotIfacation/ToastTypes.jsx';
-import Timerpage from './components/Timer/Timerlogic.jsx'; // Your main component
+import Timerpage from './components/Timer/Timerlogic.jsx';// Your main component
 import MenuButtonWithSlider from './components/Settings/MenuButton.jsx'; // Import the Menu Button Component
 import AchievementsPage from './components/Achievements/Achievements.jsx'; // Import the AchievementsPage component
-import { AchievementsProvider } from './context/AchievementsContext'; // Import the AchievementsProvider
+import { AchievementsProvider } from './context/AchievementsContext';
 import { AnalyticsProvider } from './context/AnalyticsContext';
+import { ThemeProvider } from './context/ThemeContext';
 
-const App = () => {
-  return (
+const App = () => {  return (
     <AchievementsProvider>
       <AnalyticsProvider>
-        <Router>
-          <div className="min-h-screen p-8">
-            {/* Add the Menu Button with Slider */}
-            <MenuButtonWithSlider />
+        <ThemeProvider>
+          <Router>
+            <div className="app-container">
+              {/* Navigation Controls */}
+              <nav style={{ 
+                position: 'fixed', 
+                top: '1rem', 
+                left: '1rem', 
+                right: '1rem',
+                zIndex: 10,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}>
+                <div className="nav-left">
+                  <MenuButtonWithSlider />
+                </div>
+                <div className="nav-right">
+                  <ThemeDropdown />
+                </div>
+              </nav>
 
-            {/* Add the ThemeDropdown */}
-            <ThemeDropdown />
-
-            {/* Add the Toast component */}
-            <ToastNoti position="bottom-right" richcolors />
-
-            {/* Your existing app content */}
-            <h1 className="text-4xl font-bold text-center mt-10"></h1>
-
-            <Routes>
-              <Route path="/achievements" element={<AchievementsPage />} />
-              <Route path="/" element={<Timerpage />} />
-            </Routes>
-          </div>
-        </Router>
+              <div className="main-content">
+                {/* Main Content */}
+                <Routes>
+                  <Route path="/achievements" element={<AchievementsPage />} />
+                  <Route path="/" element={<Timerpage />} />
+                </Routes>
+                
+                {/* Notifications */}
+                <ToastNoti position="bottom-right" richColors />
+              </div>
+            </div>
+          </Router>
+        </ThemeProvider>
       </AnalyticsProvider>
     </AchievementsProvider>
   );

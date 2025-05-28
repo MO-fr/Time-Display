@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"; // Import PropTypes for prop validation
 import { useEffect, useRef } from "react";
-import { useAchievements } from "../../context/AchievementsContext";
-import { showAchievementToast } from "../NotIfacation/ToastNoti";
+import { useAchievements } from "../../utils/achievementsUtils";
+import { showAchievementToast } from "../../utils/toastUtils";
 
 const AchievementsTracker = ({ timerState, completedTimers, timersInHour }) => {
   const { unlockAchievement } = useAchievements();

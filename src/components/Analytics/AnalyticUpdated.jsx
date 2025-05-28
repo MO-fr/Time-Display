@@ -4,7 +4,6 @@ import { ChevronRight, BarChart2, Clock, Zap, Target, Award, RefreshCw } from 'l
 import { motion, AnimatePresence } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { useAnalytics } from '../../hooks/useAnalytics';
-import { useTheme } from '../../hooks/useTheme';
 
 const formatTime = (seconds) => {
   const hrs = Math.floor(seconds / 3600);
@@ -42,23 +41,22 @@ const AnalyticsCard = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const { timerStats, resetStats } = useAnalytics();
-  const { activeTheme } = useTheme();
 
-  // Theme colors for different themes
-  const themeColors = {
-    default: { primary: '#ef4444', secondary: '#8b5cf6', accent: '#f59e0b' },
-    sunset: { primary: '#fb923c', secondary: '#e11d48', accent: '#f97316' },
-    ocean: { primary: '#3b82f6', secondary: '#0ea5e9', accent: '#06b6d4' },
-    forest: { primary: '#22c55e', secondary: '#059669', accent: '#16a34a' },
-    galaxy: { primary: '#8b5cf6', secondary: '#7c3aed', accent: '#6d28d9' },
-    candy: { primary: '#f472b6', secondary: '#ec4899', accent: '#fb7185' }
-  }[activeTheme] || { primary: '#ef4444', secondary: '#8b5cf6', accent: '#f59e0b' };
-
+  // Debug log when timerStats updates
   useEffect(() => {
+    console.log('Analytics component received stats:', {
+      totalTimersCompleted: timerStats.totalTimersCompleted,
+      totalTimeSpent: timerStats.totalTimeSpent
+    });
+  }, [timerStats.totalTimersCompleted, timerStats.totalTimeSpent]);
+
+  const toggleCard = () => {
+    setIsOpen(!isOpen);
+    // Reset to overview tab when closing
     if (isOpen) {
       setActiveTab('overview');
     }
-  }, [isOpen]);
+  };
 
   // Ensure timerStats has all required properties with default values
   const safeTimerStats = {
@@ -73,21 +71,21 @@ const AnalyticsCard = ({ children }) => {
     ...timerStats
   };
 
-  // Transform daily usage data for the chart
+  // Transform daily usage data for the chart with error handling
   const dailyData = (safeTimerStats.dailyUsage || []).map(day => ({
     date: day.date,
     count: day.count || 0,
-    totalTime: Math.round((day.totalTime || 0) / 60),
+    totalTime: Math.round((day.totalTime || 0) / 60), // Convert to minutes
   }));
 
-  // Transform popular durations for bar chart
+  // Transform popular durations for bar chart with error handling
   const durationData = Object.entries(safeTimerStats.popularDurations || {})
     .map(([duration, count]) => ({
       duration: formatTime(parseInt(duration) || 0),
       count: count || 0,
     }))
     .sort((a, b) => b.count - a.count)
-    .slice(0, 5);
+    .slice(0, 5); // Show top 5 most used durations
 
   return (
     <div className="analytics-container">
@@ -96,22 +94,19 @@ const AnalyticsCard = ({ children }) => {
       </div>
       
       <button 
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleCard}
         className="analytics-toggle-btn"
         aria-label={isOpen ? "Close analytics panel" : "Open analytics panel"}
         aria-expanded={isOpen}
       >
         {isOpen ? <ChevronRight className="analytics-icon" /> : <BarChart2 className="analytics-icon" />}
-      </button>
-      
-      <AnimatePresence>
+      </button>      <AnimatePresence>
         {isOpen && (
-          <motion.div
-            className="analytics-slide-panel"
-            initial={{ x: -50, opacity: 0 }}
+          <motion.div            initial={{ x: -50, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -50, opacity: 0 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+            className="analytics-slide-panel"
           >
             <div className="analytics-panel-content">
               <div className="analytics-header">
@@ -149,90 +144,38 @@ const AnalyticsCard = ({ children }) => {
                       icon={<Clock className="stat-icon" />}
                       title="Total Time"
                       value={formatTime(safeTimerStats.totalTimeSpent)}
-                      color={themeColors.secondary}
+                      color="#3b82f6"
                     />
                     <StatCard 
                       icon={<Zap className="stat-icon" />}
                       title="Total Timers"
                       value={safeTimerStats.totalTimersCompleted || 0}
-                      color={themeColors.primary}
+                      color="#8b5cf6"
                     />
                     <StatCard 
                       icon={<Target className="stat-icon" />}
                       title="Current Streak"
                       value={`${safeTimerStats.currentStreak} days`}
-                      color={themeColors.accent}
+                      color="#ef4444"
                     />
                     <StatCard 
                       icon={<Award className="stat-icon" />}
                       title="Best Streak"
                       value={`${safeTimerStats.bestStreak} days`}
-                      color={themeColors.primary}
+                      color="#f59e0b"
                     />
                   </div>
-                  
+
                   <div className="chart-container">
                     <h3>Daily Usage</h3>
                     <ResponsiveContainer width="100%" height={180}>
                       <LineChart data={dailyData}>
-                        <defs>
-                          <linearGradient id="timerGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor={themeColors.primary} stopOpacity={0.8}/>
-                            <stop offset="95%" stopColor={themeColors.primary} stopOpacity={0.2}/>
-                          </linearGradient>
-                          <linearGradient id="timeGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor={themeColors.secondary} stopOpacity={0.8}/>
-                            <stop offset="95%" stopColor={themeColors.secondary} stopOpacity={0.2}/>
-                          </linearGradient>
-                        </defs>
-                        <CartesianGrid 
-                          strokeDasharray="3 3" 
-                          stroke="var(--border-color)"
-                          vertical={false}
-                        />
-                        <XAxis 
-                          dataKey="date" 
-                          tick={{ fontSize: 12 }}
-                        />
-                        <YAxis 
-                          tick={{ fontSize: 12 }}
-                        />
-                        <Tooltip 
-                          contentStyle={{ 
-                            background: 'var(--bg-card)',
-                            border: '1px solid var(--border-color)',
-                            borderRadius: '12px',
-                            boxShadow: '0 8px 16px var(--shadow-color)'
-                          }}
-                        />
-                        <Line 
-                          type="monotone" 
-                          dataKey="count" 
-                          name="Timers" 
-                          stroke={themeColors.primary}
-                          strokeWidth={3}
-                          dot={{ fill: themeColors.primary, r: 4, strokeWidth: 2 }}
-                          activeDot={{ 
-                            r: 6, 
-                            stroke: 'var(--text-primary)', 
-                            strokeWidth: 2,
-                            fill: themeColors.primary
-                          }}
-                        />
-                        <Line 
-                          type="monotone" 
-                          dataKey="totalTime" 
-                          name="Minutes" 
-                          stroke={themeColors.secondary}
-                          strokeWidth={3}
-                          dot={{ fill: themeColors.secondary, r: 4, strokeWidth: 2 }}
-                          activeDot={{ 
-                            r: 6, 
-                            stroke: 'var(--text-primary)', 
-                            strokeWidth: 2,
-                            fill: themeColors.secondary
-                          }}
-                        />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+                        <XAxis dataKey="date" stroke="#fff" />
+                        <YAxis stroke="#fff" />
+                        <Tooltip />
+                        <Line type="monotone" dataKey="count" stroke="#8884d8" name="Timers" activeDot={{ r: 3 }} />
+                        <Line type="monotone" dataKey="totalTime" stroke="#82ca9d" name="Minutes" activeDot={{ r: 3 }} />
                       </LineChart>
                     </ResponsiveContainer>
                   </div>
@@ -244,53 +187,25 @@ const AnalyticsCard = ({ children }) => {
                       icon={<Clock className="stat-icon" />}
                       title="Average Session"
                       value={formatTime(safeTimerStats.averageSessionLength)}
-                      color={themeColors.primary}
+                      color="#3b82f6"
                     />
                     <StatCard 
                       icon={<Clock className="stat-icon" />}
                       title="Longest Session"
                       value={formatTime(safeTimerStats.longestSession)}
-                      color={themeColors.secondary}
+                      color="#8b5cf6"
                     />
                   </div>
-                  
+
                   <div className="chart-container">
                     <h3>Popular Durations</h3>
                     <ResponsiveContainer width="100%" height={180}>
                       <BarChart data={durationData}>
-                        <defs>
-                          <linearGradient id="barGradient" x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor={themeColors.accent} stopOpacity={0.8}/>
-                            <stop offset="95%" stopColor={themeColors.accent} stopOpacity={0.2}/>
-                          </linearGradient>
-                        </defs>
-                        <CartesianGrid 
-                          strokeDasharray="3 3" 
-                          stroke="var(--border-color)"
-                          vertical={false}
-                        />
-                        <XAxis 
-                          dataKey="duration" 
-                          tick={{ fontSize: 12 }}
-                        />
-                        <YAxis 
-                          tick={{ fontSize: 12 }}
-                        />
-                        <Tooltip 
-                          contentStyle={{ 
-                            background: 'var(--bg-card)',
-                            border: '1px solid var(--border-color)',
-                            borderRadius: '12px',
-                            boxShadow: '0 8px 16px var(--shadow-color)'
-                          }}
-                        />
-                        <Bar 
-                          dataKey="count" 
-                          name="Times Used" 
-                          fill="url(#barGradient)"
-                          radius={[4, 4, 0, 0]}
-                          barSize={30}
-                        />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#444" />
+                        <XAxis dataKey="duration" stroke="#fff" />
+                        <YAxis stroke="#fff" />
+                        <Tooltip />
+                        <Bar dataKey="count" fill="#8884d8" name="Times Used" />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>

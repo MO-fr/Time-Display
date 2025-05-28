@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 const MenuSlider = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,10 +16,19 @@ const MenuSlider = () => {
     open: { opacity: 1, transition: { duration: 0.3 } },
     closed: { opacity: 0, transition: { duration: 0.3 } },
   };
-
   const panelVariants = {
-    open: { x: 0, transition: { type: "spring", stiffness: 300, damping: 30 } },
-    closed: { x: "-100%", transition: { type: "spring", stiffness: 300, damping: 30 } },
+    open: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+      transition: { type: "spring", stiffness: 300, damping: 30 }
+    },
+    closed: {
+      x: "-100%",
+      opacity: 0,
+      scale: 0.95,
+      transition: { type: "spring", stiffness: 300, damping: 30 }
+    },
   };
 
   // Variants for menu items
@@ -29,11 +39,10 @@ const MenuSlider = () => {
 
   return (
     <>
-      {/* Menu trigger button */}
-      <button
+      {/* Menu trigger button */}      <button
         onClick={() => setIsOpen(!isOpen)}
         className="menu-trigger-button"
-        style={{ position: "fixed", top: "20px", left: "20px", zIndex: 1000 }}
+        style={{ zIndex: 1000, position: 'relative' }}
       >
         {/* Hamburger or X icon */}
         {isOpen ? (
@@ -69,21 +78,10 @@ const MenuSlider = () => {
               backgroundColor: "rgba(0, 0, 0, 0.5)",
               zIndex: 999,
             }}
-          >
-            <motion.div
+          >            <motion.div
               className="menu-panel"
               onClick={(e) => e.stopPropagation()}
               variants={panelVariants}
-              style={{
-                position: "fixed",
-                top: 0,
-                left: 0,
-                width: "300px",
-                height: "100%",
-                backgroundColor: "#fff",
-                padding: "20px",
-                boxShadow: "2px 0 10px rgba(0, 0, 0, 0.1)",
-              }}
             >
               <div className="menu-header">
                 <h2 className="menu-title">Timer Menu</h2>
@@ -133,6 +131,12 @@ const MenuSlider = () => {
       </AnimatePresence>
     </>
   );
+};
+
+// Component prop types
+MenuSlider.propTypes = {
+  isOpen: PropTypes.bool,
+  setIsOpen: PropTypes.func,
 };
 
 export default MenuSlider;

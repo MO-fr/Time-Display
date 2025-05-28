@@ -1,68 +1,109 @@
-# ⏳ Time Display  
+# ⏳ Time Display
 
-A sleek, minimalist timer built with React and Vite. Displays elapsed time in **HH:MM:SS** format with start, pause, and reset functionality.  
-
----
-
-## 🚀 Features  
-- Start, pause, and reset the timer with a simple UI.  
-- Smooth and modern design using **Lucide Icons**.  
-- Fully responsive and optimized.  
-- Switch between **Stopwatch** and **Timer** modes.  
-- Input fields for setting custom countdown times in **Timer** mode.  
-- Real-time countdown with automatic stop at zero.  
+A sophisticated timer application built with React and Vite, featuring a modern UI, multiple themes, analytics, and achievements.
 
 ---
 
-## 🛠 Tech Stack  
-- ⚛ **React** (Vite-based setup)  
-- 🎨 **CSS** (Custom styling)
-- 🔗 **Lucide Icons** (For play, pause, reset, and mode-switch buttons)  
-- ☁ **Vercel** (For hosting)  
+## 🚀 Features
+
+### ⏲️ Core Timer Functionality
+- **Dual Mode Operation**:
+  - Stopwatch Mode for counting up
+  - Timer Mode with customizable countdown
+- **Intuitive Controls**:
+  - Start, pause, and reset functionality
+  - Smooth mode switching
+  - Input fields for hours, minutes, and seconds in Timer mode
+- **Progress Visualization**:
+  - Real-time progress bar
+  - Automatic completion detection
+
+### 🎨 Theme System
+- **Multiple Theme Options**:
+  - Default (Red)
+  - Sunset (Orange)
+  - Ocean (Blue)
+  - Forest (Green)
+  - Galaxy (Purple)
+  - Candy (Pink)
+- **Theme Features**:
+  - Dynamic color transitions
+  - Gradient backgrounds
+  - Theme-specific accent colors
+  - Backdrop blur effects
+  - Persistent theme selection
+
+### 📊 Analytics Dashboard
+- **Usage Statistics**:
+  - Total time tracked
+  - Number of completed timers
+  - Current and best streaks
+  - Average session length
+- **Data Visualization**:
+  - Daily usage trends
+  - Popular timer durations
+  - Interactive charts
+  - Detailed statistics view
+- **Data Management**:
+  - Local storage persistence
+  - Reset functionality
+  - 30-day tracking history
+
+### 🏆 Achievements System
+- **Progress Tracking**:
+  - Unlockable achievements
+  - Progress indicators
+  - Visual feedback
+- **Categories**:
+  - Usage milestones
+  - Streak achievements
+  - Timer completions
+
+### 🎯 User Interface
+- **Modern Design**:
+  - Clean, minimalist layout
+  - Smooth animations
+  - Responsive on all devices
+  - Interactive elements
+- **Navigation**:
+  - Side menu for quick access
+  - Achievements page
+  - Theme selector
+  - Analytics panel
+
+### 🔔 Notifications
+- **Toast Notifications**:
+  - Achievement unlocks
+  - Timer completions
+  - Rich notification styling
 
 ---
 
-## 📥 Installation & Running  
-```
+## 🛠 Tech Stack
+- ⚛️ **React** (Vite-based setup)
+- 🎨 **CSS** (Custom styling with theme system)
+- 📊 **Recharts** (For analytics visualization)
+- 🎭 **Framer Motion** (For animations)
+- 🔗 **Lucide Icons** (UI icons)
+- 📱 **React Router** (Navigation)
+- 💾 **Local Storage** (Data persistence)
+
+---
+
+## 📥 Installation & Running
+
+```bash
+# Install dependencies
 npm install
-```
 
-```
+# Start development server
 npm run dev
 ```
 
-# 🕹 How to Use  
-
-## Stopwatch Mode  
-- Click the **Play** button to start the stopwatch.  
-- Click the **Pause** button to pause the stopwatch.  
-- Click the **Reset** button to reset the stopwatch to 00:00:00.  
-
-## Timer Mode  
-- Switch to **Timer** mode by clicking the "Switch to Timer" button.  
-- Enter the desired countdown time using the **HH:MM:SS** input fields.  
-- Click the **Start Timer** button to begin the countdown.  
-- The timer will automatically stop when it reaches 00:00:00.  
-- Use the **Reset** button to reset the timer.  
-
 ---
 
-## ❗❗ Announcements
-- The settings and menu tab point to nothing for the time being, i will add updates later making them more useful.
-
-# 🔮 Future Updates  
-
-Exciting features planned for upcoming versions:  
-
-- ⏲ **Preset Timers** – Add predefined timer presets for quick access (e.g., 5 minutes, 10 minutes).  
-- 📊 **History Log** – Track and display past timer sessions for reference.  
-
-Stay tuned for more enhancements! 🚀  
-
----
-
-# 📜 License  
-- MIT License
+## 📜 License
+MIT License
 
 ---
 

@@ -22,6 +22,9 @@ const TimerLogic = () => {
 
   // State to track timers completed within an hour
   const [timersInHour, setTimersInHour] = useState(0);
+  
+  // Reference to track previous running state
+  const [previouslyRunning, setPreviouslyRunning] = useState(false);
 
   // Hook to track analytics
   const { updateTimerUsage, timerStats } = useAnalytics();
@@ -41,6 +44,7 @@ const TimerLogic = () => {
     let intervalId;
 
     if (timerState.isRunning) {
+      setPreviouslyRunning(true);
       intervalId = setInterval(() => {
         setTimerState((prev) => {
           if (prev.isStopwatch) {
@@ -60,20 +64,19 @@ const TimerLogic = () => {
           }
         });
       }, 1000);
+    } else if (previouslyRunning) {
+      // Timer was running but is now stopped
+      setPreviouslyRunning(false);
+      
+      // Handle stopwatch completion
+      if (timerState.isStopwatch && timerState.time > 0) {
+        updateTimerUsage(timerState.time, true);
+        setTimersInHour(prev => prev + 1);
+      }
     }
 
     return () => clearInterval(intervalId); // Clean up when the timer stops
-  }, [timerState.isRunning, timerState.isStopwatch, updateTimerUsage]);
-
-  // Track stopwatch completions
-  useEffect(() => {
-    // Only for stopwatch: when the timer is stopped with a non-zero time
-    if (timerState.isStopwatch && !timerState.isRunning && timerState.time > 0) {
-      const duration = timerState.time;
-      updateTimerUsage(duration, true);
-      setTimersInHour(prev => prev + 1);
-    }
-  }, [timerState.isRunning, timerState.isStopwatch, timerState.time, updateTimerUsage]);
+  }, [timerState.isRunning, timerState.isStopwatch, timerState.time, timerState.initialTime, previouslyRunning, updateTimerUsage]);
 
   // Manage hourly timer tracking
   useEffect(() => {
@@ -111,7 +114,8 @@ const TimerLogic = () => {
     updateTimerState({ 
       time: 0, 
       isRunning: false, 
-      isStopwatch: !timerState.isStopwatch 
+      isStopwatch: !timerState.isStopwatch,
+      initialTime: 0
     });
     setInputTime({ hours: 0, minutes: 0, seconds: 0 }); // Reset input fields
   };
