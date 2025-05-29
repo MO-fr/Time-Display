@@ -3,6 +3,7 @@ import TimerUI from "./TimerUI";
 import StreakManager from "../NotIfacation/ToastNoti.jsx";
 import AchievementTracker from "../Achievements/AchievementsTracker";
 import { useAnalytics } from '../../hooks/useAnalytics';
+import { useAchievements } from '../../utils/achievementsUtils';
 
 const TimerLogic = () => {
   // State for the timer (grouped together)
@@ -23,8 +24,9 @@ const TimerLogic = () => {
   // State to track timers completed within an hour
   const [timersInHour, setTimersInHour] = useState(0);
 
-  // Hook to track analytics
+  // Hooks for analytics and achievements
   const { updateTimerUsage, timerStats } = useAnalytics();
+  const { checkAchievements } = useAchievements();
 
   // Updates the timer state
   const updateTimerState = (updates) => {
@@ -54,6 +56,15 @@ const TimerLogic = () => {
               const duration = prev.initialTime;
               updateTimerUsage(duration, true);
               setTimersInHour(prevCount => prevCount + 1);
+              
+              // Check achievements after timer completion
+              checkAchievements({
+                completedTimers: timerStats.totalTimersCompleted + 1,
+                currentStreak: timerStats.currentStreak,
+                timersInHour: timersInHour + 1,
+                timerDuration: duration
+              });
+
               return { ...prev, time: 0, isRunning: false };
             }
             return { ...prev, time: prev.time - 1 };
@@ -63,7 +74,7 @@ const TimerLogic = () => {
     }
 
     return () => clearInterval(intervalId); // Clean up when the timer stops
-  }, [timerState.isRunning, timerState.isStopwatch, updateTimerUsage]);
+  }, [timerState.isRunning, timerState.isStopwatch, updateTimerUsage, timerStats, timersInHour, checkAchievements]);
 
   // Track stopwatch completions
   useEffect(() => {
@@ -72,8 +83,16 @@ const TimerLogic = () => {
       const duration = timerState.time;
       updateTimerUsage(duration, true);
       setTimersInHour(prev => prev + 1);
+      
+      // Check achievements after stopwatch stops
+      checkAchievements({
+        completedTimers: timerStats.totalTimersCompleted + 1,
+        currentStreak: timerStats.currentStreak,
+        timersInHour: timersInHour + 1,
+        timerDuration: duration
+      });
     }
-  }, [timerState.isRunning, timerState.isStopwatch, timerState.time, updateTimerUsage]);
+  }, [timerState.isRunning, timerState.isStopwatch, timerState.time, updateTimerUsage, timerStats, timersInHour, checkAchievements]);
 
   // Manage hourly timer tracking
   useEffect(() => {
@@ -96,7 +115,14 @@ const TimerLogic = () => {
   // Start or stop the timer
   const handleStartStop = () => {
     if (!timerState.isRunning) {
-      updateTimerUsage(); // Track timer usage when starting
+      updateTimerUsage();
+      // Check first timer achievement when starting
+      checkAchievements({
+        completedTimers: timerStats.totalTimersCompleted,
+        currentStreak: timerStats.currentStreak,
+        timersInHour,
+        timerDuration: timerState.isStopwatch ? 0 : timerState.initialTime
+      });
     }
     updateTimerState({ isRunning: !timerState.isRunning });
   };
