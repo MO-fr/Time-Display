@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Clock, Award, Star, Target, Zap, Timer, Heart, Medal, Trophy, AlertTriangle, Check, Filter } from 'lucide-react';
+import { Clock, Award, Star, Target, Zap, Timer, Heart, Medal, Trophy, AlertTriangle, Check, Filter, RotateCcw } from 'lucide-react';
+import { toast } from 'sonner';
 import { useAchievements } from '../../utils/achievementsUtils';
 
 const achievementCategories = {
@@ -19,8 +20,9 @@ const achievementCategories = {
 };
 
 const Achievements = () => {
-  const { achievements } = useAchievements();
+  const { achievements, resetAchievements } = useAchievements();
   const [showOnlyCompleted, setShowOnlyCompleted] = useState(false);
+  const [showResetConfirm, setShowResetConfirm] = useState(false);
 
   const getIcon = (iconName) => {
     const icons = {
@@ -54,19 +56,65 @@ const Achievements = () => {
       .filter(achievement => !showOnlyCompleted || achievement.unlocked);
   };
 
+  const handleResetClick = () => {
+    setShowResetConfirm(true);
+  };
+  const confirmReset = () => {
+    resetAchievements();
+    setShowResetConfirm(false);
+    toast.success("Achievements reset successfully", {
+      duration: 4000,
+      position: "bottom-left",
+      style: {
+        background: 'var(--bg-card)',
+        border: '2px solid var(--accent-color)',
+        color: 'var(--text-primary)',
+        boxShadow: '0 12px 32px var(--shadow-color)',
+        backdropFilter: 'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)'
+      }
+    });
+  };
+
+  const cancelReset = () => {
+    setShowResetConfirm(false);
+  };
+
   return (
     <div className="achievements-page">
       <div className="achievements-header">
         <h1 className="achievements-title">Progress Hub</h1>
-        <button
-          className="filter-button"
-          onClick={() => setShowOnlyCompleted(!showOnlyCompleted)}
-          title={showOnlyCompleted ? "Show all achievements" : "Show only completed"}
-        >
-          <Filter className="w-5 h-5" />
-          <span>{showOnlyCompleted ? "Show All" : "Show Completed"}</span>
-        </button>
+        <div className="achievements-controls">
+          <button
+            onClick={() => setShowOnlyCompleted(!showOnlyCompleted)}
+            className="filter-button"
+            aria-pressed={showOnlyCompleted}
+          >
+            <Filter size={20} />
+            {showOnlyCompleted ? 'Show All' : 'Show Completed'}
+          </button>
+          <button
+            onClick={handleResetClick}
+            className="reset-button"
+            aria-label="Reset Achievements"
+          >
+            <RotateCcw size={20} />
+          </button>
+        </div>
       </div>
+
+      {showResetConfirm && (
+        <div className="reset-confirm-modal" role="alertdialog" aria-labelledby="resetTitle">
+          <div className="reset-confirm-content">
+            <h2 id="resetTitle">Reset Achievements?</h2>
+            <p>This will clear all your achievement progress. This action cannot be undone.</p>
+            <div className="reset-confirm-buttons">
+              <button onClick={cancelReset} className="cancel-button">Cancel</button>
+              <button onClick={confirmReset} className="confirm-button">Reset</button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="achievements-categories">
         {Object.entries(achievementCategories).map(([categoryKey, category]) => {

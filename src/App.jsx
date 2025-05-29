@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ThemeDropdown from './components/Themes/ThemeDropdown.jsx';
-import ToastNoti from './components/NotIfacation/ToastTypes.jsx';
+import ToastProvider from './components/NotIfacation/ToastTypes.jsx';
 import Timerpage from './components/Timer/Timerlogic.jsx';// Your main component
 import MenuButtonWithSlider from './components/Settings/MenuButton.jsx'; // Import the Menu Button Component
 import AchievementsPage from './components/Achievements/Achievements.jsx'; // Import the AchievementsPage component
@@ -37,11 +37,10 @@ const App = () => {  return (
                 {/* Main Content */}
                 <Routes>
                   <Route path="/achievements" element={<AchievementsPage />} />
-                  <Route path="/" element={<Timerpage />} />
-                </Routes>
+                  <Route path="/" element={<Timerpage />} />                </Routes>
                 
                 {/* Notifications */}
-                <ToastNoti position="bottom-right" richColors />
+                <ToastProvider />
               </div>
             </div>
           </Router>

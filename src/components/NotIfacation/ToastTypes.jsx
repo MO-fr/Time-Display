@@ -1,32 +1,22 @@
 import { Toaster } from "sonner";
 
+// Default configuration for all toasts
 const TOAST_CONFIG = {
   position: "bottom-left",
   richColors: false,
   closeButton: true,
   duration: 5000,
-  expand: true,
+  expand: false,
   className: 'theme-aware-toast',
-  gap: 8,
-  style: {
-    fontSize: '1rem',
-    fontFamily: 'Poppins, sans-serif',
-    background: 'var(--bg-card)',
-    border: '1px solid var(--border-color)',
-    color: 'var(--text-primary)',
-    boxShadow: '0 8px 16px var(--shadow-color)',
-    backdropFilter: 'blur(8px)',
-    WebkitBackdropFilter: 'blur(8px)',
-  },
+  visibleToasts: 1,
   toastOptions: {
-    classNames: {
-      toast: 'achievement-toast',
-      success: 'success-toast',
-      error: 'error-toast',
-      loading: 'loading-toast',
-    },
+    className: '',
     style: {
-      margin: '0.5rem'
+      background: 'var(--bg-card)',
+      border: '1px solid var(--border-color)',
+      color: 'var(--text-primary)',
+      fontSize: '1rem',
+      fontFamily: 'Poppins, sans-serif',
     }
   }
 };

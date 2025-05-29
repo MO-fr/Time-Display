@@ -1,185 +1,136 @@
 import { useState, useEffect } from "react";
 import TimerUI from "./TimerUI";
-import StreakManager from "../NotIfacation/ToastNoti.jsx";
+import { showTimerCompletionToast } from "../NotIfacation/TimerToast";
 import AchievementTracker from "../Achievements/AchievementsTracker";
 import { useAnalytics } from '../../hooks/useAnalytics';
-import { useAchievements } from '../../utils/achievementsUtils';
 
 const TimerLogic = () => {
-  // State for the timer (grouped together)
+  // State for the timer
   const [timerState, setTimerState] = useState({
-    time: 0,          // Stores the current timer value (in seconds)
-    isRunning: false, // Checks if the timer is running or stopped
-    isStopwatch: false, // true = stopwatch mode, false = countdown mode
-    initialTime: 0    // Stores the initial time for countdown mode
+    time: 0,          // Current timer value in seconds
+    isRunning: false, // Running or stopped
+    isStopwatch: false, // Stopwatch or countdown mode
+    initialTime: 0    // Initial time for countdown mode
   });
 
-  // State for the user's input time (grouped together)
+  // State for user's input time
   const [inputTime, setInputTime] = useState({ 
     hours: 0, 
     minutes: 0, 
     seconds: 0 
   });
 
-  // State to track timers completed within an hour
+  // Track timers completed within an hour
   const [timersInHour, setTimersInHour] = useState(0);
 
-  // Hooks for analytics and achievements
+  // Get analytics functions and stats
   const { updateTimerUsage, timerStats } = useAnalytics();
-  const { checkAchievements } = useAchievements();
+  
+  // Reset timers in hour count every hour
+  useEffect(() => {
+    const resetHourlyTimers = () => setTimersInHour(0);
+    const now = new Date();
+    const nextHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours() + 1, 0, 0);
+    const delay = nextHour - now;
+    
+    const timerId = setTimeout(resetHourlyTimers, delay);
+    return () => clearTimeout(timerId);
+  }, []);
 
-  // Updates the timer state
-  const updateTimerState = (updates) => {
-    setTimerState((prev) => ({ ...prev, ...updates }));
-  };
-
-  // Updates the input time based on user input
-  const updateInputTime = (field, value) => {
-    setInputTime((prev) => ({ ...prev, [field]: value }));
-  };
-
-  // Controls the timer's countdown or stopwatch logic
+  // Timer tick effect
   useEffect(() => {
     let intervalId;
-
+    let timerCompleted = false;
+    
     if (timerState.isRunning) {
       intervalId = setInterval(() => {
-        setTimerState((prev) => {
+        setTimerState(prev => {
           if (prev.isStopwatch) {
-            // If it's a stopwatch, count UP
+            // For stopwatch, just increment time
             return { ...prev, time: prev.time + 1 };
-          } else {
-            // If it's a countdown, count DOWN
-            if (prev.time <= 1) {
-              clearInterval(intervalId); // Stop at 0
-              // Record timer completion
-              const duration = prev.initialTime;
-              updateTimerUsage(duration, true);
-              setTimersInHour(prevCount => prevCount + 1);
-              
-              // Check achievements after timer completion
-              checkAchievements({
-                completedTimers: timerStats.totalTimersCompleted + 1,
-                currentStreak: timerStats.currentStreak,
-                timersInHour: timersInHour + 1,
-                timerDuration: duration
-              });
-
-              return { ...prev, time: 0, isRunning: false };
-            }
+          } else if (prev.time > 0) {
+            // For countdown, decrement time
             return { ...prev, time: prev.time - 1 };
+          } else {
+            // Timer completed
+            if (prev.initialTime > 0 && prev.isRunning && !timerCompleted) {
+              timerCompleted = true;
+              setTimersInHour(p => p + 1);
+              updateTimerUsage(prev.initialTime, true);
+              showTimerCompletionToast(prev.initialTime);
+            }
+            return { ...prev, isRunning: false };
           }
         });
       }, 1000);
     }
-
-    return () => clearInterval(intervalId); // Clean up when the timer stops
-  }, [timerState.isRunning, timerState.isStopwatch, updateTimerUsage, timerStats, timersInHour, checkAchievements]);
-
-  // Track stopwatch completions
-  useEffect(() => {
-    // Only for stopwatch: when the timer is stopped with a non-zero time
-    if (timerState.isStopwatch && !timerState.isRunning && timerState.time > 0) {
-      const duration = timerState.time;
-      updateTimerUsage(duration, true);
-      setTimersInHour(prev => prev + 1);
-      
-      // Check achievements after stopwatch stops
-      checkAchievements({
-        completedTimers: timerStats.totalTimersCompleted + 1,
-        currentStreak: timerStats.currentStreak,
-        timersInHour: timersInHour + 1,
-        timerDuration: duration
-      });
-    }
-  }, [timerState.isRunning, timerState.isStopwatch, timerState.time, updateTimerUsage, timerStats, timersInHour, checkAchievements]);
-
-  // Manage hourly timer tracking
-  useEffect(() => {
-    const cleanupTimeouts = [];
     
-    // When a timer is completed, schedule its removal from hourly count
-    if (timersInHour > 0) {
-      const timeoutId = setTimeout(() => {
-        setTimersInHour(prev => Math.max(0, prev - 1));
-      }, 3600000); // 1 hour
-      cleanupTimeouts.push(timeoutId);
-    }
+    return () => clearInterval(intervalId);
+  }, [timerState.isRunning, timerState.isStopwatch, updateTimerUsage]);
 
-    // Cleanup function to clear all timeouts
-    return () => {
-      cleanupTimeouts.forEach(clearTimeout);
-    };
-  }, [timersInHour]);
-
-  // Start or stop the timer
+  // Handle start/stop
   const handleStartStop = () => {
-    if (!timerState.isRunning) {
-      updateTimerUsage();
-      // Check first timer achievement when starting
-      checkAchievements({
-        completedTimers: timerStats.totalTimersCompleted,
-        currentStreak: timerStats.currentStreak,
-        timersInHour,
-        timerDuration: timerState.isStopwatch ? 0 : timerState.initialTime
-      });
-    }
-    updateTimerState({ isRunning: !timerState.isRunning });
-  };
-
-  // Reset the timer
+    setTimerState(prev => ({ ...prev, isRunning: !prev.isRunning }));
+  };  // Handle reset
   const handleReset = () => {
-    updateTimerState({ time: 0, isRunning: false });
+    // If timer was running and it's a stopwatch, record the time spent
+    if (timerState.isStopwatch && timerState.isRunning && timerState.time > 0) {
+      const timeToRecord = timerState.time;
+      console.log('Stopwatch reset - recording time:', timeToRecord);
+      
+      // Update analytics directly, without setTimeout
+      // The debouncing in the analytics context will prevent double updates
+      updateTimerUsage(timeToRecord, false);
+    }
+    
+    // Update timer state separately to avoid race conditions
+    setTimerState(prev => ({
+      ...prev,
+      time: prev.isStopwatch ? 0 : prev.initialTime,
+      isRunning: false
+    }));
   };
 
-  // Switch between stopwatch & countdown mode
+  // Handle mode switch
   const handleModeSwitch = () => {
-    updateTimerState({ 
-      time: 0, 
-      isRunning: false, 
-      isStopwatch: !timerState.isStopwatch 
+    setTimerState({
+      time: 0,
+      isRunning: false,
+      isStopwatch: !timerState.isStopwatch,
+      initialTime: 0
     });
-    setInputTime({ hours: 0, minutes: 0, seconds: 0 }); // Reset input fields
+    setInputTime({ hours: 0, minutes: 0, seconds: 0 });
   };
 
-  // Start countdown with user input
+  // Start countdown timer
   const startCountdownTimer = () => {
-    const totalSeconds = inputTime.hours * 3600 + inputTime.minutes * 60 + inputTime.seconds;
+    const totalSeconds = (inputTime.hours * 3600) + (inputTime.minutes * 60) + inputTime.seconds;
     if (totalSeconds > 0) {
-      updateTimerUsage(); // Track timer usage when starting a countdown
-      updateTimerState({ 
-        time: totalSeconds, 
+      setTimerState({
+        time: totalSeconds,
         initialTime: totalSeconds,
-        isRunning: true 
+        isRunning: true,
+        isStopwatch: false
       });
     }
   };
 
-  // Format time from seconds → HH:MM:SS format
+  // Format time display
   const formatTime = (seconds) => {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
     return `${hrs.toString().padStart(2, "0")}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
-
   return (
     <div>
-      {/* Tracks streaks based on usage */}
-      <StreakManager 
-        isRunning={timerState.isRunning} 
-        time={timerState.time} 
-        isStopwatch={timerState.isStopwatch} 
-      />
-
-      {/* Achievement Tracker */}
       <AchievementTracker
         timerState={timerState}
         completedTimers={timerStats.totalTimersCompleted}
         timersInHour={timersInHour}
+        currentStreak={timerStats.currentStreak || 0}
       />
 
-      {/* Timer UI receives only necessary props */}
       <TimerUI
         timerState={timerState}
         inputTime={inputTime}
@@ -188,7 +139,7 @@ const TimerLogic = () => {
         handleReset={handleReset}
         handleModeSwitch={handleModeSwitch}
         startCountdownTimer={startCountdownTimer}
-        updateInputTime={updateInputTime}
+        updateInputTime={(field, value) => setInputTime(prev => ({ ...prev, [field]: value }))}
       />
     </div>
   );
