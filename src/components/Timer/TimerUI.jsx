@@ -17,11 +17,16 @@ const TimerUI = ({
   const calculateProgress = () => {
     if (timerState.isStopwatch) {
       return 0;
-    } else {
-      const totalTime = inputTime.hours * 3600 + inputTime.minutes * 60 + inputTime.seconds;
-      if (totalTime === 0) return 0;
-      return ((totalTime - timerState.time) / totalTime) * 100;
     }
+
+    // For countdown timer
+    if (!timerState.time) return 0;
+    
+    const totalSeconds = inputTime.hours * 3600 + inputTime.minutes * 60 + inputTime.seconds;
+    if (totalSeconds === 0) return 0;
+    
+    const progress = ((totalSeconds - timerState.time) / totalSeconds) * 100;
+    return Math.min(100, Math.max(0, progress)); // Ensure progress is between 0 and 100
   };
 
   return (

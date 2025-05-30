@@ -1568,3 +1568,32 @@ button {
     transform: translateY(0);
   }
 }
+
+/* Progress Bar Styles */
+.progress-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.progress-container:hover {
+  transform: scale(1.02);
+}
+
+/* Override circular progressbar styles */
+.CircularProgressbar-path {
+  transition: stroke-dashoffset 0.5s ease 0s !important;
+}
+
+.CircularProgressbar-text {
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500 !important;
+  filter: drop-shadow(0px 2px 4px var(--shadow-color));
+}
+
+.CircularProgressbar-trail {
+  opacity: 0.2;
+}
